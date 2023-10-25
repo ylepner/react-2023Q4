@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import SearchPanel from './components/BookCard/SearchPanel/SearchPanel';
+import SearchPanel from './components/SearchPanel/SearchPanel';
+import BookCardList from './components/BookCardList/BookCardList';
 
 export default class App extends Component {
   render() {
     return (
       <>
-        <SearchPanel />
+        <div>
+          <SearchPanel />
+        </div>
+        <div>
+          <BookCardList />
+        </div>
       </>
     );
   }
