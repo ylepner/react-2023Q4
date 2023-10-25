@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import HomePage from './pages/HomePage/HomePage';
+import SearchPanel from './components/BookCard/SearchPanel/SearchPanel';
 
 export default class App extends Component {
   render() {
     return (
       <>
-        <HomePage />
+        <SearchPanel />
       </>
     );
   }
