@@ -13,10 +13,14 @@ class BookCardList extends Component<BookCardListProps> {
   render() {
     return (
       <div className="card-list">
+        Found: {this.props.books.length}
         {this.props.books.map((book, index) => {
           return (
-            <div className="card" key={index}>
-              <img className="card-img-top" src={book.cover} />
+            <div className="card w-40" key={index}>
+              <img
+                className="card-img-top"
+                src={`https://covers.openlibrary.org/b/id/${book.cover}.jpg`}
+              />
               <div className="card-body">
                 <h5 className="card-title">{book.title}</h5>
                 <h5 className="card-cover">{book.cover}</h5>
