@@ -1,29 +1,29 @@
 import { Component } from 'react';
-import { BookCardResponseBooks } from '../BookCard/models';
+import { BookCard, BookCardResponseBooks } from '../BookCard/models';
 
-interface State {
-  searchTerm: string;
-  searchResults: BookCardResponseBooks[];
+interface BookCardListProps {
+  books: BookCard[];
 }
 
-class BookCardList extends Component<object, State> {
-  constructor(props: object) {
+class BookCardList extends Component<BookCardListProps> {
+  constructor(props: BookCardListProps) {
     super(props);
-    this.state = {
-      searchTerm: '',
-      searchResults: [],
-    };
   }
 
   render() {
     return (
       <div className="card-list">
-        {this.state.searchResults.map((result, index) => (
-          <div key={index}>
-            <h2>{result.title}</h2>
-            <p>{result.publish_date}</p>
-          </div>
-        ))}
+        {this.props.books.map((book, index) => {
+          return (
+            <div className="card" key={index}>
+              <img className="card-img-top" src={book.cover} />
+              <div className="card-body">
+                <h5 className="card-title">{book.title}</h5>
+                <h5 className="card-cover">{book.cover}</h5>
+              </div>
+            </div>
+          );
+        })}
       </div>
     );
   }

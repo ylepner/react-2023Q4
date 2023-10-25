@@ -60,11 +60,12 @@ export interface BookCardResponseBooks {
 }
 
 export interface BookCard {
+  id: string;
   title: string;
-  authors: { key: string }[];
-  description: string;
   cover: string;
-  subjects: string[];
-  publish_date: string;
-  pagination: string;
+  // authors: { key: string }[];
+  // description: string;
+  // subjects: string[];
+  // publish_date: string;
+  // pagination: string;
 }
