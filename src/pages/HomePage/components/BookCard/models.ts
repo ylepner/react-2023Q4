@@ -1,3 +1,20 @@
+export interface BooksResponse {
+  numFound: number;
+  start: number;
+  numFoundExact: boolean;
+  docs: BookInfo[];
+  num_found: number;
+  q: string;
+  offset: null;
+}
+
+export interface BookInfo {
+  key: string;
+  title: string;
+  cover_i?: number;
+  author_name: string[];
+}
+
 interface CreatedInfo {
   type: string;
   value: string;
@@ -38,7 +55,6 @@ export interface BookCardResponseWorks {
     value: string;
   };
 }
-
 export interface BookCardResponseBooks {
   type: { key: string };
   authors: { key: string }[];
@@ -58,12 +74,11 @@ export interface BookCardResponseBooks {
   created: CreatedInfo;
   last_modified: ModifiedInfo;
 }
-
 export interface BookCard {
   id: string;
   title: string;
   cover: string;
-  // authors: { key: string }[];
+  authors: string[];
   // description: string;
   // subjects: string[];
   // publish_date: string;
