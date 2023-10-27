@@ -15,6 +15,13 @@ export interface BookInfo {
   author_name: string[];
 }
 
+export interface BookCard {
+  id: string;
+  title: string;
+  cover: string;
+  authors: string[];
+}
+
 interface CreatedInfo {
   type: string;
   value: string;
@@ -73,14 +80,4 @@ export interface BookCardResponseBooks {
   revision: number;
   created: CreatedInfo;
   last_modified: ModifiedInfo;
-}
-export interface BookCard {
-  id: string;
-  title: string;
-  cover: string;
-  authors: string[];
-  // description: string;
-  // subjects: string[];
-  // publish_date: string;
-  // pagination: string;
 }
