@@ -15,7 +15,7 @@ class BookCard extends Component<BookCardProps> {
       <div className="card w-40">
         <img
           className="card-img-top"
-          src={`https://covers.openlibrary.org/b/id/${this.props.book.cover}.jpg`}
+          src={`https://covers.openlibrary.org/b/id/${this.props.book.cover_i}.jpg`}
         />
         <h5 className="card-title">{this.props.book.title}</h5>
         <div className="card-body">
