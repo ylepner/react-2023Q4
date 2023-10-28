@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import BookCard from '../BookCard/BookCard';
-import { BookViewInfo } from '../BookCard/models';
+import { BookInfo } from '../BookCard/models';
 
 interface BookCardListProps {
-  books: BookViewInfo[];
+  books: BookInfo[];
 }
 
 class BookCardList extends Component<BookCardListProps> {
@@ -16,7 +16,7 @@ class BookCardList extends Component<BookCardListProps> {
       <div className="card-list">
         Found: {this.props.books.length}
         {this.props.books.map((book) => (
-          <BookCard key={book.id} book={book} />
+          <BookCard key={book.key} book={book} />
         ))}
       </div>
     );

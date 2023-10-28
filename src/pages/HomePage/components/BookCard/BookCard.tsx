@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { BookViewInfo } from './models';
+import { BookInfo } from './models';
 
 interface BookCardProps {
-  book: BookViewInfo;
+  book: BookInfo;
 }
 
 class BookCard extends Component<BookCardProps> {
@@ -20,8 +20,8 @@ class BookCard extends Component<BookCardProps> {
         <h5 className="card-title">{this.props.book.title}</h5>
         <div className="card-body">
           <h5 className="card-title">{this.props.book.title}</h5>
-          <h5 className="card-cover">{this.props.book.cover}</h5>
-          <h5 className="card-author">{this.props.book.authors}</h5>
+          <h5 className="card-cover">{this.props.book.cover_i}</h5>
+          <h5 className="card-author">{this.props.book.author_name}</h5>
         </div>
       </div>
     );
