@@ -25,7 +25,7 @@ class SearchPanel extends Component<SearchPanelProps> {
             <img
               className="book-img w-24 absolute top-10 right-0"
               src="../src/assets/book-gif.svg"
-              alt=""
+              alt="library image"
             />
           </div>
           <p className="p mt-8 mb-6">
@@ -49,7 +49,7 @@ class SearchPanel extends Component<SearchPanelProps> {
           </div>
           <span className="flex justify-evenly items-center">
             <button
-              className="flex border-2 border-gray-800 p-1 rounded-xl bg-yellow-400 text-xs w-1/3 h-9 justify-around items-center"
+              className="flex flex-wrap border-2 border-gray-800 p-1 rounded-xl bg-yellow-400 text-xs w-1/3 h-9 justify-around items-center"
               onClick={this.handleSearchTermChange}
             >
               Explore

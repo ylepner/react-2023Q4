@@ -3,6 +3,8 @@ import SearchPanel from './components/SearchPanel/SearchPanel';
 import BookCardList from './components/BookCardList/BookCardList';
 import { BookInfo, BooksResponse } from './components/BookCard/models';
 import './HomePage.css';
+import { data } from '../../data';
+
 
 interface State {
   searchTerm: string;
@@ -16,7 +18,7 @@ export default class HomePage extends Component<object, State> {
     super(props);
     this.state = {
       searchTerm: localStorage.getItem('searchTerm') || '',
-      searchResults: [],
+      searchResults: data,
     };
   }
 
@@ -58,7 +60,10 @@ export default class HomePage extends Component<object, State> {
   render() {
     return (
       <div className="h-screen wrapper">
-        <button className="border-2 border-gray-800 p-2 rounded-3xl mb-8 bg-red-500" onClick={this.setError}>
+        <button
+          className="border-2 border-gray-800 p-2 rounded-3xl mb-8 bg-red-500"
+          onClick={this.setError}
+        >
           Throw error
         </button>
         {this.state.rendererError && <div>{this.throwError()}</div>}
@@ -72,13 +77,12 @@ export default class HomePage extends Component<object, State> {
           {this.state.searchTerm ? (
             <span>Results for &apos;{this.state.searchTerm}&apos;</span>
           ) : (
-            <>Trending books</>
+            <>All books</>
           )}
         </h2>
-        <div className="card-list">
+        <div className="card-list flex justify-center">
           <BookCardList books={this.state.searchResults} />
         </div>
-      
       </div>
     );
   }

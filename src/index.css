@@ -14,7 +14,11 @@ h1 {
 
 h2 {
   font-size: 24px;
-  font-family: 'Unica One', sans-serif;;
+  font-family: 'Unica One', sans-serif;
+}
+
+h5 {
+  font-size: 13.28px;
 }
 
 p {
@@ -23,4 +27,11 @@ p {
 
 .yellow-500 {
   color: #fdbf0f;
+}
+
+.test-book {
+  height: 300px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  text-align: center;
 }

@@ -15,10 +15,14 @@ class BookCardList extends Component<BookCardListProps> {
   render() {
     return (
       <div>
-        <div className="text-center p-5">Results: {this.props.books.length}</div>
-        <div className="grid grid-rows-2 grid-flow-col gap-4">
+        <div className="text-center p-5">
+          Results: {this.props.books.length}
+        </div>
+        <div className="flex flex-wrap flex-row gap-4">
           {this.props.books.map((book) => (
-            <BookCard key={book.key} book={book} />
+            <div key={book.key} className="test-book w-40">
+              <BookCard book={book} />
+            </div>
           ))}
         </div>
       </div>
