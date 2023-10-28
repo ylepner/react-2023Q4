@@ -1,0 +1,8 @@
+.wrapper {
+  padding: 0 70px;
+}
+
+.card-list {
+  border-top: dotted #676767 2px;
+  border-bottom: dotted #676767 2px;
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SearchPanel from './components/SearchPanel/SearchPanel';
 import BookCardList from './components/BookCardList/BookCardList';
 import { BookInfo, BooksResponse } from './components/BookCard/models';
+import './HomePage.css';
 
 interface State {
   searchTerm: string;
@@ -27,6 +28,9 @@ export default class HomePage extends Component<object, State> {
 
   onSearch = (searchTerm?: string) => {
     localStorage.setItem('searchTerm', searchTerm || '');
+    if (searchTerm === '') {
+      searchTerm = 'ab';
+    }
     fetch(
       `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`
     )
@@ -53,18 +57,20 @@ export default class HomePage extends Component<object, State> {
 
   render() {
     return (
-      <div>
-        <div className="flex flex-row">
+      <div className="h-screen wrapper">
+        <div className="flex h-1/3">
           <SearchPanel
             onSearch={this.onSearch}
             searchTerm={this.state.searchTerm}
           />
         </div>
-        <div>
+        <h2 className='pt-20 pb-10'>Trending Books</h2>
+        <div className="h-1/2 card-list">
           <BookCardList books={this.state.searchResults} />
         </div>
-        <button onClick={this.setError}>Throw error</button>
-
+        <button className="h-1/2" onClick={this.setError}>
+          Throw error
+        </button>
         {this.state.rendererError && <div>{this.throwError()}</div>}
       </div>
     );

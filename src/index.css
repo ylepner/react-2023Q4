@@ -3,6 +3,24 @@
 @tailwind utilities;
 
 body {
-  color: black;
-  background-color: lightgray;
+  background-color: white;
+  font-family: 'Syne', sans-serif;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 24px;
+  font-family: 'Unica One', sans-serif;;
+}
+
+p {
+  font-size: 16px;
+}
+
+.yellow-500 {
+  color: #fdbf0f;
 }
