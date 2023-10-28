@@ -1,35 +1,18 @@
-import { ChangeEvent, Component, createRef } from 'react';
+import { Component, createRef } from 'react';
 
 interface SearchPanelProps {
   onSearch: (searchTerm: string) => void;
+  searchTerm?: string;
 }
-class SearchPanel extends Component<SearchPanelProps, { value: string }> {
+class SearchPanel extends Component<SearchPanelProps> {
   private inputRef = createRef<HTMLInputElement>();
   constructor(props: SearchPanelProps) {
     super(props);
-    this.state = {
-      value: localStorage.getItem('searchTerm') || '',
-    };
   }
-
-  componentWillUnmount() {
-    this.saveToStorage(this.state.value);
-  }
-
-  saveToStorage(searchTerm: string) {
-    localStorage.setItem('searchTerm', searchTerm);
-  }
-
-  handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ value: e.target.value });
-    this.saveToStorage(e.target.value);
-  };
 
   handleSearchTermChange = () => {
     const searchTerm = this.inputRef.current?.value ?? '';
-    if (searchTerm) {
-      this.props.onSearch(searchTerm);
-    }
+    this.props.onSearch(searchTerm);
   };
 
   render() {
@@ -40,8 +23,7 @@ class SearchPanel extends Component<SearchPanelProps, { value: string }> {
             type="text"
             placeholder="What book do you search for?"
             ref={this.inputRef}
-            value={this.state.value}
-            onChange={this.handleSearchChange}
+            defaultValue={this.props.searchTerm}
           />
           <button onClick={this.handleSearchTermChange}>Search</button>
         </div>
