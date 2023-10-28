@@ -58,20 +58,27 @@ export default class HomePage extends Component<object, State> {
   render() {
     return (
       <div className="h-screen wrapper">
+        <button className="border-2 border-gray-800 p-2 rounded-3xl mb-8 bg-red-500" onClick={this.setError}>
+          Throw error
+        </button>
+        {this.state.rendererError && <div>{this.throwError()}</div>}
         <div className="flex h-1/3">
           <SearchPanel
             onSearch={this.onSearch}
             searchTerm={this.state.searchTerm}
           />
         </div>
-        <h2 className='pt-20 pb-10'>Trending Books</h2>
-        <div className="h-1/2 card-list">
+        <h2 className="pt-20 pb-8 text-center">
+          {this.state.searchTerm ? (
+            <span>Results for &apos;{this.state.searchTerm}&apos;</span>
+          ) : (
+            <>Trending books</>
+          )}
+        </h2>
+        <div className="card-list">
           <BookCardList books={this.state.searchResults} />
         </div>
-        <button className="h-1/2" onClick={this.setError}>
-          Throw error
-        </button>
-        {this.state.rendererError && <div>{this.throwError()}</div>}
+      
       </div>
     );
   }
