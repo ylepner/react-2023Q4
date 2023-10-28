@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React from 'react';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -20,7 +20,7 @@ class ErrorBoundary extends React.Component<object, ErrorBoundaryState> {
 
   render() {
     if (this.state.hasError) {
-      return <h1>Something went wrong.</h1>;
+      return <div className="flex justify-center items-center h-screen"><h1 className="text-6xl text-red-600">Something went wrong.</h1></div>
     }
 
     return (this.props as React.PropsWithChildren<object>).children;
