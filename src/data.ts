@@ -65,4 +65,7 @@ export const data: BookInfo[] = [
     key: '/works/OL25312237W',
     cover_i: 12009823,
   },
-];
+].map((el, i) => ({
+  ...el,
+  key: `${el.key}_${i}`
+}));

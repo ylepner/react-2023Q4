@@ -3,14 +3,13 @@ import SearchPanel from './components/SearchPanel/SearchPanel';
 import BookCardList from './components/BookCardList/BookCardList';
 import { BookInfo, BooksResponse } from './components/BookCard/models';
 import './HomePage.css';
-import { data } from '../../data';
-
+import { data as defaultData } from '../../data';
 
 interface State {
   searchTerm: string;
   searchResults: BookInfo[];
-  networkError?: false;
   rendererError?: boolean;
+  isLoading: boolean;
 }
 
 export default class HomePage extends Component<object, State> {
@@ -18,7 +17,8 @@ export default class HomePage extends Component<object, State> {
     super(props);
     this.state = {
       searchTerm: localStorage.getItem('searchTerm') || '',
-      searchResults: data,
+      searchResults: defaultData,
+      isLoading: false,
     };
   }
 
@@ -28,25 +28,31 @@ export default class HomePage extends Component<object, State> {
     }
   }
 
-  onSearch = (searchTerm?: string) => {
+  onSearch = async (searchTerm?: string) => {
     localStorage.setItem('searchTerm', searchTerm || '');
     if (searchTerm === '') {
       searchTerm = 'ab';
     }
-    fetch(
-      `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`
-    )
-      .then((res) => res.json())
-      .then((data: BooksResponse) =>
-        this.setState({
-          searchResults: data.docs.map((doc) => ({
-            key: doc.key,
-            title: doc.title,
-            cover_i: doc.cover_i || undefined,
-            author_name: doc.author_name || [],
-          })),
-        })
+    this.setState({ isLoading: true, searchTerm: searchTerm ?? '' });
+    try {
+      const result = await fetch(
+        `https://openlibrary.org/search.json?q=${
+          searchTerm || 'ab'
+        }&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`
       );
+      const data: BooksResponse = await result.json();
+      this.setState({
+        searchResults: data.docs.map((doc) => ({
+          key: doc.key,
+          title: doc.title,
+          cover_i: doc.cover_i || undefined,
+          author_name: doc.author_name || [],
+        })),
+      });
+    } catch (e) {
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   setError = () => {
@@ -55,6 +61,21 @@ export default class HomePage extends Component<object, State> {
 
   throwError(): React.ReactNode {
     throw new Error('Error from renderer');
+  }
+
+  getHeader() {
+    if (this.state.isLoading) {
+      return <>Loading...</>;
+    }
+    return (
+      <>
+        {this.state.searchTerm ? (
+          <span>Results for &apos;{this.state.searchTerm}&apos;</span>
+        ) : (
+          <>All books</>
+        )}
+      </>
+    );
   }
 
   render() {
@@ -73,13 +94,7 @@ export default class HomePage extends Component<object, State> {
             searchTerm={this.state.searchTerm}
           />
         </div>
-        <h2 className="pt-20 pb-8 text-center">
-          {this.state.searchTerm ? (
-            <span>Results for &apos;{this.state.searchTerm}&apos;</span>
-          ) : (
-            <>All books</>
-          )}
-        </h2>
+        <h2 className="pt-20 pb-8 text-center">{this.getHeader()}</h2>
         <div className="card-list flex justify-center">
           <BookCardList books={this.state.searchResults} />
         </div>
