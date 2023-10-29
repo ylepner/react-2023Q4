@@ -3,7 +3,7 @@ import './SearchPanel.css';
 import bookImg from './book-gif.svg';
 import magnifyingGlassIcon from './magnifying-glass-svgrepo-com.svg';
 import binocularsIcon from './Binoculars.svg';
-import libraryImg from './Rectangle9.svg';
+import libraryImg from './BannerImg.svg';
 
 interface SearchPanelProps {
   onSearch: (searchTerm: string) => void;
@@ -25,7 +25,7 @@ class SearchPanel extends Component<SearchPanelProps> {
       <div className="flex w-full justify-around items-center">
         <div className="search-box w-1/3 relative">
           <div className="relative">
-            <h1 className="text-gray-800 h1">What book do you looking for?</h1>
+            <h1 className="text-gray-800 h1">What book are you looking for?</h1>
             <img
               className="book-img w-24 absolute top-10 right-0"
               src={bookImg}
