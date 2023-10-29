@@ -5,7 +5,11 @@ class Header extends Component {
     return (
       <header className="wrapper pt-5 pb-5 flex justify-between">
         <div className="flex">
-          <img className="pr-3" src="./src/assets/BookOpen.svg" alt="book icon" />
+          <img
+            className="pr-3"
+            src="./src/assets/BookOpen.svg"
+            alt="book icon"
+          />
           <h3>Open Library</h3>
         </div>
         <button>

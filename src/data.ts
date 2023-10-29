@@ -20,7 +20,9 @@ export const data: BookInfo[] = [
   },
   {
     title: 'The 48 Laws of Power',
-    author_name: ['Robert Greene, Joost Elffers, William Richmond, Talita M. Rodrigues, Harper Price, and R. Greene'],
+    author_name: [
+      'Robert Greene, Joost Elffers, William Richmond, Talita M. Rodrigues, Harper Price, and R. Greene',
+    ],
     key: 'works/OL1968368W',
     cover_i: 9573841,
   },
