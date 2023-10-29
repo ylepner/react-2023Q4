@@ -85,7 +85,7 @@ export default class HomePage extends Component<object, State> {
 
   render() {
     return (
-      <div className="h-screen wrapper">
+      <div className="wrapper">
         <button
           className="border-2 border-gray-800 p-2 rounded-3xl mb-8 bg-red-500"
           onClick={this.setError}
