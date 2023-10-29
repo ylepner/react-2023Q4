@@ -31,10 +31,10 @@ export default class HomePage extends Component<object, State> {
   }
 
   onSearch = async (searchTerm?: string) => {
-    let url = `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
+    let url = getQueryUrl(searchTerm || '');
     localStorage.setItem('searchTerm', searchTerm || '');
     if (searchTerm === '') {
-      url = `https://openlibrary.org/search.json?q='all'&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
+      url = getQueryUrl('');
       this.setState({ isListStatus: 'all' });
     } else {
       this.setState({ isListStatus: 'results' });
@@ -105,5 +105,13 @@ export default class HomePage extends Component<object, State> {
         </div>
       </div>
     );
+  }
+}
+
+function getQueryUrl(searchTerm: string) {
+  if (searchTerm) {
+    return `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
+  } else {
+    return `https://openlibrary.org/search.json?q='all'&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
   }
 }
