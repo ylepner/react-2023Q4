@@ -1,5 +1,9 @@
 import { Component, createRef } from 'react';
 import './SearchPanel.css';
+import bookImg from './book-gif.svg';
+import magnifyingGlassIcon from './magnifying-glass-svgrepo-com.svg';
+import binocularsIcon from './Binoculars.svg';
+import libraryImg from './Rectangle9.svg';
 
 interface SearchPanelProps {
   onSearch: (searchTerm: string) => void;
@@ -24,8 +28,8 @@ class SearchPanel extends Component<SearchPanelProps> {
             <h1 className="text-gray-800 h1">What book do you looking for?</h1>
             <img
               className="book-img w-24 absolute top-10 right-0"
-              src="../src/assets/book-gif.svg"
-              alt="library image"
+              src={bookImg}
+              alt="book icon"
             />
           </div>
           <p className="p mt-8 mb-6">
@@ -41,10 +45,7 @@ class SearchPanel extends Component<SearchPanelProps> {
             />
             <div className="input-shadow w-full p-1 pl-3 rounded-3xl text-xs mb-8 bg-yellow-500 h-5 absolute top-3"></div>
             <span className="absolute right-2 top-1">
-              <img
-                src="../src/assets/magnifying-glass-svgrepo-com.svg"
-                alt=""
-              />
+              <img src={magnifyingGlassIcon} alt="Magnifying glass icon" />
             </span>
           </div>
           <span className="flex justify-evenly items-center">
@@ -53,13 +54,13 @@ class SearchPanel extends Component<SearchPanelProps> {
               onClick={this.handleSearchTermChange}
             >
               Explore
-              <img className="w-5" src="../src/assets/Binoculars.svg" alt="" />
+              <img className="w-5" src={binocularsIcon} alt="" />
             </button>
             <div className="line w-2/3 ml-10"></div>
           </span>
         </div>
         <div className="search-image w-1/4">
-          <img src="../src/assets/Rectangle9.svg" alt="" />
+          <img src={libraryImg} alt="library image" />
         </div>
       </div>
     );
