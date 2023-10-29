@@ -28,10 +28,3 @@ p {
 .yellow-500 {
   color: #fdbf0f;
 }
-
-.test-book {
-  height: 300px;
-  border: 1px solid gray;
-  border-radius: 10px;
-  text-align: center;
-}

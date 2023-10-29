@@ -21,8 +21,8 @@ class BookCard extends Component<BookCardProps> {
         </div>
 
         <div className="shrink-0 h-1/3">
-          <h5 className="card-title text-ellipsis font-semibold">{this.props.book.title}</h5>
-          <h5 className="card-author text-ellipsis">by {this.props.book.author_name}</h5>
+          <h5 className="card-title truncate font-semibold">{this.props.book.title}</h5>
+          <h5 className="card-author truncate">by {this.props.book.author_name}</h5>
         </div>
       </div>
     );

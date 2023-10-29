@@ -8,6 +8,7 @@ import { data as defaultData } from '../../data';
 interface State {
   searchTerm: string;
   searchResults: BookInfo[];
+  isListStatus: 'all' | 'trends' | 'results';
   rendererError?: boolean;
   isLoading: boolean;
 }
@@ -18,6 +19,7 @@ export default class HomePage extends Component<object, State> {
     this.state = {
       searchTerm: localStorage.getItem('searchTerm') || '',
       searchResults: defaultData,
+      isListStatus: 'trends',
       isLoading: false,
     };
   }
@@ -29,17 +31,17 @@ export default class HomePage extends Component<object, State> {
   }
 
   onSearch = async (searchTerm?: string) => {
+    let url = `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
     localStorage.setItem('searchTerm', searchTerm || '');
     if (searchTerm === '') {
-      searchTerm = 'ab';
+      url = `https://openlibrary.org/search.json?q='all'&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
+      this.setState({ isListStatus: 'all' });
+    } else {
+      this.setState({ isListStatus: 'results' });
     }
     this.setState({ isLoading: true, searchTerm: searchTerm ?? '' });
     try {
-      const result = await fetch(
-        `https://openlibrary.org/search.json?q=${
-          searchTerm || 'ab'
-        }&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`
-      );
+      const result = await fetch(url);
       const data: BooksResponse = await result.json();
       this.setState({
         searchResults: data.docs.map((doc) => ({
@@ -66,6 +68,9 @@ export default class HomePage extends Component<object, State> {
   getHeader() {
     if (this.state.isLoading) {
       return <>Loading...</>;
+    }
+    if (this.state.isListStatus === 'trends') {
+      return <>Trending books</>;
     }
     return (
       <>

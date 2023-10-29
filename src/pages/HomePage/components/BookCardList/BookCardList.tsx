@@ -20,7 +20,7 @@ class BookCardList extends Component<BookCardListProps> {
         </div>
         <div className="flex flex-wrap flex-row gap-4">
           {this.props.books.map((book) => (
-            <div key={book.key} className="test-book w-40">
+            <div key={book.key} className="card-book w-40">
               <BookCard book={book} />
             </div>
           ))}
