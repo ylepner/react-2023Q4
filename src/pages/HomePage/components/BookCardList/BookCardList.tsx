@@ -18,7 +18,7 @@ class BookCardList extends Component<BookCardListProps> {
         <div className="text-center p-5">
           Results: {this.props.books.length}
         </div>
-        <div className="flex flex-wrap flex-row gap-4">
+        <div className="flex flex-wrap flex-row gap-4 justify-center pb-6">
           {this.props.books.map((book) => (
             <div key={book.key} className="card-book w-40">
               <BookCard book={book} />
