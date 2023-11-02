@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import SearchPanel from './components/SearchPanel/SearchPanel';
 import BookCardList from './components/BookCardList/BookCardList';
 import { BookInfo, BooksResponse } from './components/BookCard/models';
@@ -15,40 +15,45 @@ const HomePage: React.FC = () => {
   >('trends');
   const [rendererError, setRendererError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const onSearch = useCallback(
+    async (searchTerm?: string) => {
+      let url = getQueryUrl(searchTerm || '', currentPage);
+      console.log(url);
+      localStorage.setItem('searchTerm', searchTerm || '');
+      if (searchTerm === '') {
+        url = getQueryUrl('', currentPage);
+        setIsListStatus('all');
+      } else {
+        setIsListStatus('results');
+      }
+      setIsLoading(true);
+      setSearchTerm(searchTerm ?? '');
+      try {
+        const result = await fetch(url);
+        const data: BooksResponse = await result.json();
+        setSearchResults(
+          data.docs.map((doc) => ({
+            key: doc.key,
+            title: doc.title,
+            cover_i: doc.cover_i || undefined,
+            author_name: doc.author_name || [],
+          }))
+        );
+      } catch (e) {
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [currentPage]
+  );
 
   useEffect(() => {
     if (searchTerm) {
       onSearch(searchTerm);
     }
-  }, [searchTerm]);
-
-  const onSearch = async (searchTerm?: string) => {
-    let url = getQueryUrl(searchTerm || '');
-    localStorage.setItem('searchTerm', searchTerm || '');
-    if (searchTerm === '') {
-      url = getQueryUrl('');
-      setIsListStatus('all');
-    } else {
-      setIsListStatus('results');
-    }
-    setIsLoading(true);
-    setSearchTerm(searchTerm ?? '');
-    try {
-      const result = await fetch(url);
-      const data: BooksResponse = await result.json();
-      setSearchResults(
-        data.docs.map((doc) => ({
-          key: doc.key,
-          title: doc.title,
-          cover_i: doc.cover_i || undefined,
-          author_name: doc.author_name || [],
-        }))
-      );
-    } catch (e) {
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [searchTerm, currentPage, onSearch]);
 
   const throwError = (): React.ReactNode => {
     throw new Error('Error from renderer');
@@ -86,17 +91,40 @@ const HomePage: React.FC = () => {
       </div>
       <h2 className="pt-20 pb-8 text-center">{getHeader()}</h2>
       <div className="card-list flex justify-center">
-        <BookCardList books={searchResults} />
+        <BookCardList books={searchResults} searchTerm={searchTerm} />
+      </div>
+      <div className="pagination-buttons flex justify-center space-x-4">
+        <button
+          onClick={() => {
+            setCurrentPage(currentPage - 1);
+            console.log(currentPage - 1);
+          }}
+          disabled={currentPage === 1}
+          className={currentPage === 1 ? 'grayscale' : ''}
+        >
+          ⬅️ Previous
+        </button>
+        <div>{currentPage}</div>
+        <button
+          onClick={() => {
+            setCurrentPage(currentPage + 1);
+            console.log(currentPage + 1);
+          }}
+          disabled={searchResults.length === currentPage}
+          className={searchResults.length === currentPage ? 'grayscale' : ''}
+        >
+          Next➡️
+        </button>
       </div>
     </div>
   );
 };
 
-function getQueryUrl(searchTerm: string) {
+function getQueryUrl(searchTerm: string, currentPage: number) {
   if (searchTerm) {
-    return `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
+    return `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=10&page=${currentPage}&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
   } else {
-    return `https://openlibrary.org/search.json?q='all'&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
+    return `https://openlibrary.org/search.json?q='all'&${currentPage}_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
   }
 }
 
