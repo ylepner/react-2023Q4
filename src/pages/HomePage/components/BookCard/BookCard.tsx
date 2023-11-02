@@ -8,7 +8,10 @@ interface BookCardProps {
 const BookCard = ({ book }: BookCardProps) => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col h-full">
+    <div
+      onClick={() => navigate(`details${book.key}`)}
+      className="flex flex-col h-full cursor-pointer"
+    >
       <div className="grow overflow-hidden flex items-center justify-center p-2">
         {!book.cover_i ? (
           <div>No image</div>
@@ -25,9 +28,6 @@ const BookCard = ({ book }: BookCardProps) => {
         <h5 className="card-title truncate font-semibold">{book.title}</h5>
         <h5 className="card-author truncate">by {book.author_name}</h5>
       </div>
-      <button onClick={() => navigate(`details${book.key}`)}>
-        Card Details
-      </button>
     </div>
   );
 };
