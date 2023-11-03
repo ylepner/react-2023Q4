@@ -2,7 +2,7 @@ import { queryBooks } from '../../api.utils';
 import { BookData } from '../../models';
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import BookCardList from '../HomePage/components/BookCardList/BookCardList';
+import BookCardList from '../../components/BookCardList/BookCardList';
 
 export const SearchResult = (props: {
   searchTerm: string;

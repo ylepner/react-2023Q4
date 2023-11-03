@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { BookData } from '../../../../models';
-import { getBookImgUrl } from '../../../../data.utils';
+import { BookData } from '../../models';
+import { getBookImgUrl } from '../../data.utils';
 
 interface BookCardProps {
   book: BookData;

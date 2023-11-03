@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router';
 import { useMemo } from 'react';
-import BookCardDetails from './pages/HomePage/components/BookCardDetails/BookCardDetails';
+import BookCardDetails from './components/BookCardDetails/BookCardDetails';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import { useLocation, useParams } from 'react-router-dom';

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BookDetails } from '../../../../api.models';
+import { BookDetails } from '../../api.models';
 import './BookCardDetails.css';
 
 const BookCardDetails = ({ id }: { id: string }) => {

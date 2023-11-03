@@ -1,6 +1,6 @@
 import BookCard from '../BookCard/BookCard';
 import './BookCardList.css';
-import { BookData } from '../../../../models';
+import { BookData } from '../../models';
 
 interface BookCardListProps {
   books: BookData[];
