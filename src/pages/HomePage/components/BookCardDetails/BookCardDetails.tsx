@@ -4,12 +4,10 @@ import './BookCardDetails.css';
 
 const BookCardDetails = ({ id }: { id: string }) => {
   console.log('Contact!');
-  // const { id } = useParams<{ id: string }>();
   const [book, setBook] = useState<BookDetails | null>(null);
   const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
-    console.log(id);
     fetch(`https://openlibrary.org/works/${id}.json`)
       .then((response) => response.json())
       .then((data: BookDetails) => setBook(data));

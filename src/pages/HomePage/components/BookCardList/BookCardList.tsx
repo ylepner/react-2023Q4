@@ -4,16 +4,16 @@ import './BookCardList.css';
 
 interface BookCardListProps {
   books: BookInfo[];
+  searchTerm?: string;
 }
 
-const BookCardList = ({ books }: BookCardListProps) => {
+const BookCardList = (props: BookCardListProps) => {
   return (
     <div>
-      <div className="text-center p-5">Results: {books.length}</div>
-      <div className="flex flex-wrap flex-row gap-4 justify-center pb-6">
-        {books.map((book) => (
+      <div className="flex flex-wrap flex-row gap-4 justify-center pb-6 pt-6">
+        {props.books.map((book) => (
           <div key={book.key} className="card-book w-40">
-            <BookCard book={book} />
+            <BookCard book={book} parentUrl={`/search/${props.searchTerm}`} />
           </div>
         ))}
       </div>

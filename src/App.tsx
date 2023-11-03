@@ -1,17 +1,27 @@
 import { Route, Routes } from 'react-router';
+import { useMemo } from 'react';
 import BookCardDetails from './pages/HomePage/components/BookCardDetails/BookCardDetails';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import { useParams } from 'react-router-dom';
-import SearchResults from './pages/SearchResults/SearchResults';
+import { useLocation, useParams } from 'react-router-dom';
+import HomePage from './pages/HomePage/HomePage';
+import { SearchResult } from './pages/SearchResults/SearchResults';
+
+function useQuery() {
+  const { search } = useLocation();
+
+  return useMemo(() => new URLSearchParams(search), [search]);
+}
 
 function BindSearchResult() {
   const { searchTerm } = useParams();
-  return <SearchResult searchTerm={searchTerm ?? ''} />;
+  const query = useQuery();
+  return <SearchResult searchTerm={searchTerm ?? ''} page={parseInt(query.get('page') || '0')} take={parseInt(query.get('take') || '10')} />;
 }
 
-function SearchResult(props: { searchTerm: string }) {
-  return <div>Search result for: {props.searchTerm}</div>;
+function BindDetailsId() {
+  const { id } = useParams();
+  return <BookCardDetails id={id ?? ''} />;
 }
 
 function App() {
@@ -19,11 +29,11 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<SearchResults />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/search/:searchTerm" element={<BindSearchResult />}>
           <Route
             path="details/:id"
-            element={<BookCardDetails id={'OL35351151W'} />}
+            element={<BindDetailsId/>}
           ></Route>
         </Route>
       </Routes>

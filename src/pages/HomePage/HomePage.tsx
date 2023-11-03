@@ -4,8 +4,9 @@ import BookCardList from './components/BookCardList/BookCardList';
 import { BookInfo, BooksResponse } from './components/BookCard/models';
 import './HomePage.css';
 import { data as defaultData } from '../../data';
+import { getQueryUrl } from '../../api.utils';
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState<string>(
     localStorage.getItem('searchTerm') || ''
   );
@@ -127,17 +128,5 @@ const HomePage: React.FC = () => {
     </div>
   );
 };
-
-function getQueryUrl(
-  searchTerm: string,
-  currentPage: number,
-  itemsPerPage: number = 10
-) {
-  if (searchTerm) {
-    return `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=${itemsPerPage}&page=${currentPage}&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
-  } else {
-    return `https://openlibrary.org/search.json?q='all'&page=${currentPage}&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
-  }
-}
 
 export default HomePage;
