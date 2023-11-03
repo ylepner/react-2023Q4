@@ -6,3 +6,7 @@
   border-top: dotted #676767 2px;
   border-bottom: dotted #676767 2px;
 }
+
+.input-per-page {
+  border: 1px solid gray;
+}

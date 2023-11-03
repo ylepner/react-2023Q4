@@ -13,13 +13,13 @@ const HomePage: React.FC = () => {
   const [isListStatus, setIsListStatus] = useState<
     'all' | 'trends' | 'results'
   >('trends');
-  const [rendererError, setRendererError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
 
   const onSearch = useCallback(
     async (searchTerm?: string) => {
-      let url = getQueryUrl(searchTerm || '', currentPage);
+      let url = getQueryUrl(searchTerm || '', currentPage, itemsPerPage);
       console.log(url);
       localStorage.setItem('searchTerm', searchTerm || '');
       if (searchTerm === '') {
@@ -55,9 +55,9 @@ const HomePage: React.FC = () => {
     }
   }, [searchTerm, currentPage, onSearch]);
 
-  const throwError = (): React.ReactNode => {
-    throw new Error('Error from renderer');
-  };
+  useEffect(() => {
+    onSearch(searchTerm);
+  }, [itemsPerPage]);
 
   const getHeader = (): React.ReactNode => {
     if (isLoading) {
@@ -79,18 +79,26 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="wrapper">
-      <button
-        className="border-2 border-gray-800 p-2 rounded-3xl mb-8 bg-red-500"
-        onClick={() => setRendererError(true)}
-      >
-        Throw error
-      </button>
-      {rendererError && <div>{throwError()}</div>}
       <div className="flex h-1/3">
         <SearchPanel onSearch={onSearch} searchTerm={searchTerm} />
       </div>
       <h2 className="pt-20 pb-8 text-center">{getHeader()}</h2>
-      <div className="card-list flex justify-center">
+      <div className="card-list flex justify-center flex-col text-center">
+        <div className="items-per-page pt-6">
+          <label className="pr-2" htmlFor="items_number">
+            Books per page
+          </label>
+          <input
+            className="input-per-page pl-3 border-1 border-gray-500 border-solid rounded-lg text-center w-12"
+            type="number"
+            id="items_number"
+            onChange={(e) => {
+              setItemsPerPage(parseInt(e.target.value));
+              setCurrentPage(1);
+            }}
+            value={itemsPerPage}
+          />
+        </div>
         <BookCardList books={searchResults} searchTerm={searchTerm} />
       </div>
       <div className="pagination-buttons flex justify-center space-x-4">
@@ -120,11 +128,15 @@ const HomePage: React.FC = () => {
   );
 };
 
-function getQueryUrl(searchTerm: string, currentPage: number) {
+function getQueryUrl(
+  searchTerm: string,
+  currentPage: number,
+  itemsPerPage: number = 10
+) {
   if (searchTerm) {
-    return `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=10&page=${currentPage}&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
+    return `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=${itemsPerPage}&page=${currentPage}&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
   } else {
-    return `https://openlibrary.org/search.json?q='all'&${currentPage}_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
+    return `https://openlibrary.org/search.json?q='all'&page=${currentPage}&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
   }
 }
 
