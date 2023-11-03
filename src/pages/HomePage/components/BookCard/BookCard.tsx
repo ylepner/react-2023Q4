@@ -1,25 +1,26 @@
-import { BookInfo } from '../../../../api.models';
 import { NavLink } from 'react-router-dom';
+import { BookData } from '../../../../models';
+import { getBookImgUrl } from '../../../../data.utils';
 
 interface BookCardProps {
-  book: BookInfo;
+  book: BookData;
   parentUrl?: string;
 }
 
 const BookCard = (props: BookCardProps) => {
   return (
     <NavLink
-      to={`${props.parentUrl}/details${props.book.key}`}
+      to={`${props.parentUrl}/details/${props.book.id}`}
       className="flex flex-col h-full cursor-pointer"
     >
       <div className="grow overflow-hidden flex items-center justify-center p-2">
-        {!props.book.cover_i ? (
+        {!props.book.coverId ? (
           <div>No image</div>
         ) : (
           <div>
             <img
               className="max-w-full max-h-full"
-              src={`https://covers.openlibrary.org/b/id/${props.book.cover_i}.jpg`}
+              src={getBookImgUrl(props.book)}
             />
           </div>
         )}
@@ -28,7 +29,9 @@ const BookCard = (props: BookCardProps) => {
         <h5 className="card-title truncate font-semibold">
           {props.book.title}
         </h5>
-        <h5 className="card-author truncate">by {props.book.author_name}</h5>
+        <h5 className="card-author truncate">
+          by {props.book.authors.join(', ')}
+        </h5>
       </div>
     </NavLink>
   );

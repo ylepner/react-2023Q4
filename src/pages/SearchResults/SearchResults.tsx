@@ -1,43 +1,35 @@
-import { BookInfo, BooksResponse } from '../../api.models';
-import BookCard from '../HomePage/components/BookCard/BookCard';
-import { useState } from 'react';
+import { queryBooks } from '../../api.utils';
+import { BookData } from '../../models';
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import BookCardList from '../HomePage/components/BookCardList/BookCardList';
 
 export const SearchResult = (props: {
   searchTerm: string;
   page: number;
   limit: number;
 }) => {
-  const [books, setBooks] = useState<BookInfo[]>([]);
+  const [books, setBooks] = useState<BookData[]>([]);
   console.log(props);
 
-  const getBooks = (searchTerm: string) => {
-    const url = `http://openlibrary.org/search.json?q=${props.searchTerm}&page=${props.page}&limit=${props.limit}`;
-    fetch(url)
-      .then((response) => response.json())
-      .then((data: BooksResponse) => {
-        console.log(data);
-        setBooks(
-          data.docs.map((doc) => ({
-            key: doc.key,
-            title: doc.title,
-            cover_i: doc.cover_i || undefined,
-            author_name: doc.author_name || [],
-          }))
-        );
-      });
-  };
+  useEffect(() => {
+    queryBooks({
+      searchTerm: props.searchTerm,
+      currentPage: props.page,
+      itemsPerPage: props.limit,
+    }).then((result) => {
+      console.log('Result of query', result);
+      setBooks(result.books);
+    });
+  }, [props.searchTerm, props.page, props.limit]);
 
   return (
     <div className="flex flex-row">
       <div className="grow">
-        {books.map((book) => (
-          <BookCard
-            key={book.key}
-            book={book}
-            parentUrl={`/search/${props.searchTerm}`}
-          />
-        ))}
+        <BookCardList
+          books={books}
+          searchTerm={props.searchTerm}
+        ></BookCardList>
       </div>
       <div className="max-w-sm">
         <Outlet />

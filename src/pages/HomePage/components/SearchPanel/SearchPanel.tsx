@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import './SearchPanel.css';
 import bookImg from './book-gif.svg';
 import magnifyingGlassIcon from './magnifying-glass-svgrepo-com.svg';
@@ -6,19 +6,8 @@ import binocularsIcon from './Binoculars.svg';
 import libraryImg from './BannerImg.svg';
 import { Link } from 'react-router-dom';
 
-interface SearchPanelProps {
-  onSearch: (searchTerm: string) => void;
-  searchTerm?: string;
-}
-
-const SearchPanel = ({ onSearch, searchTerm }: SearchPanelProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const handleSearchTermChange = () => {
-    const searchTerm = inputRef.current?.value ?? '';
-    onSearch(searchTerm);
-  };
-
+const SearchPanel = () => {
+  const [searchTerm, setSearchTerm] = useState('');
   return (
     <div className="flex w-full justify-around items-center">
       <div className="search-box w-1/3 relative">
@@ -37,9 +26,9 @@ const SearchPanel = ({ onSearch, searchTerm }: SearchPanelProps) => {
           <input
             className="border-2 border-gray-800 w-full p-1 pl-3 rounded-3xl text-xs mb-8 relative z-10"
             type="text"
-            placeholder="Type the name of book or author..."
-            ref={inputRef}
-            defaultValue={searchTerm}
+            placeholder="Type the name of book..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <div className="input-shadow w-full p-1 pl-3 rounded-3xl text-xs mb-8 bg-yellow-500 h-5 absolute top-3"></div>
           <span>
@@ -52,9 +41,8 @@ const SearchPanel = ({ onSearch, searchTerm }: SearchPanelProps) => {
         </div>
         <span className="flex justify-evenly items-center">
           <Link
-            to={`/search/${searchTerm}`}
+            to={!searchTerm ? '' : `/search/${searchTerm}`}
             className="flex flex-wrap border-2 border-gray-800 p-1 rounded-xl bg-yellow-400 text-xs w-1/3 h-9 justify-around items-center"
-            onClick={handleSearchTermChange}
           >
             Explore
             <img className="w-5" src={binocularsIcon} alt="" />
