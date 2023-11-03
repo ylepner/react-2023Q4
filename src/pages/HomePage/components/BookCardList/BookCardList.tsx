@@ -1,5 +1,5 @@
 import BookCard from '../BookCard/BookCard';
-import { BookInfo } from '../BookCard/models';
+import { BookInfo } from '../../../../api.models';
 import './BookCardList.css';
 
 interface BookCardListProps {

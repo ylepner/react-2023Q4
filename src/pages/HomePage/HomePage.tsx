@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import SearchPanel from './components/SearchPanel/SearchPanel';
 import BookCardList from './components/BookCardList/BookCardList';
-import { BookInfo, BooksResponse } from './components/BookCard/models';
+import { BookInfo, BooksResponse } from '../../api.models';
 import './HomePage.css';
 import { data as defaultData } from '../../data';
 import { getQueryUrl } from '../../api.utils';

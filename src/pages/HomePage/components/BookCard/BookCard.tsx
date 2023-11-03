@@ -1,4 +1,4 @@
-import { BookInfo } from './models';
+import { BookInfo } from '../../../../api.models';
 import { NavLink } from 'react-router-dom';
 
 interface BookCardProps {

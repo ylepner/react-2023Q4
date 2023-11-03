@@ -13,6 +13,7 @@ export interface BookInfo {
   cover_i?: number;
   author_name: string[];
 }
+
 export interface BookDetails {
   description: string;
   title: string;

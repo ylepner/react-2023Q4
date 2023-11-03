@@ -6,6 +6,7 @@ import Footer from './components/Footer/Footer';
 import { useLocation, useParams } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import { SearchResult } from './pages/SearchResults/SearchResults';
+import { COUNT_PARAM_NAME, PAGE_PARAM_NAME } from './route.utils';
 
 function useQuery() {
   const { search } = useLocation();
@@ -16,7 +17,13 @@ function useQuery() {
 function BindSearchResult() {
   const { searchTerm } = useParams();
   const query = useQuery();
-  return <SearchResult searchTerm={searchTerm ?? ''} page={parseInt(query.get('page') || '0')} take={parseInt(query.get('take') || '10')} />;
+  return (
+    <SearchResult
+      searchTerm={searchTerm ?? ''}
+      page={parseInt(query.get(PAGE_PARAM_NAME) || '0')}
+      limit={parseInt(query.get(COUNT_PARAM_NAME) || '10')}
+    />
+  );
 }
 
 function BindDetailsId() {
@@ -31,10 +38,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/search/:searchTerm" element={<BindSearchResult />}>
-          <Route
-            path="details/:id"
-            element={<BindDetailsId/>}
-          ></Route>
+          <Route path="details/:id" element={<BindDetailsId />}></Route>
         </Route>
       </Routes>
       <Footer />
