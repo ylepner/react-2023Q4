@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react';
-import { BookDetails } from '../../api.models';
+import { BookFullDetailsResponse } from '../../api.models';
 import './BookCardDetails.css';
+import { getBookImgUrlByCoverId } from '../../data.utils';
 
 const BookCardDetails = ({ id }: { id: string }) => {
   console.log('Contact!');
-  const [book, setBook] = useState<BookDetails | null>(null);
+  const [book, setBook] = useState<BookFullDetailsResponse | null>(null);
   const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     fetch(`https://openlibrary.org/works/${id}.json`)
       .then((response) => response.json())
-      .then((data: BookDetails) => setBook(data));
+      .then((data: BookFullDetailsResponse) => {
+        console.log(data);
+        setBook(data);
+      });
   }, [id]);
 
   const handleClick = () => {
@@ -21,24 +25,21 @@ const BookCardDetails = ({ id }: { id: string }) => {
     <div>
       {book ? (
         <div className="card-details flex flex-col border-1 border-dotted border-gray-500 rounded-lg text-center relative p-2">
-          <img
-            src={`https://covers.openlibrary.org/b/id/${book.covers[0]}.jpg`}
-            alt=""
-          />
+          <BookCover coverId={book?.covers[0]} />
           <h4 className="p-5 font-light">{book.title}</h4>
-          <h6 className="h-1/6 pb-3">
-            Nightmare Abbey, a venerable family-mansion, in a highly picturesque
-            state of semi-dilapidation, pleasantly situated on a strip of dry
-            land between the sea and the fens, at the verge of the county of
-            Lincoln, had the honour to be the seat of Christopher Glowry,
-            Esquire. This gentleman was naturally of an atrabilarious
-            temperament, and much troubled with those phantoms of indigestion
-            which are commonly called blue devils.
-          </h6>
-          <StyleDescriptionElement detailTitle="Author" detail="No Name" />
-          <StyleDescriptionElement detailTitle="Publish date" detail="2020" />
-          <StyleDescriptionElement detailTitle="Language" detail="English" />
-          <StyleDescriptionElement detailTitle="Pages" detail="304" />
+          <h6 className="pb-3">{book.description.value}</h6>
+          <StyleDescriptionElement
+            detailTitle="Author"
+            detail={book.authors.join(', ')}
+          />
+          <StyleDescriptionElement
+            detailTitle="Publish date"
+            detail={book.created.value}
+          />
+          <StyleDescriptionElement
+            detailTitle="Subjects"
+            detail={book.subjects.join(', ')}
+          />
           <button className="text-right">
             <svg
               onClick={handleClick}
@@ -77,5 +78,12 @@ const StyleDescriptionElement = (props: {
     </span>
   );
 };
+
+function BookCover({ coverId }: { coverId?: number }) {
+  if (coverId == null) {
+    return <div>No Cover</div>;
+  }
+  return <img src={getBookImgUrlByCoverId(coverId)} alt="" />;
+}
 
 export default BookCardDetails;

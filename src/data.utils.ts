@@ -13,6 +13,9 @@ export function toBookInfo(data: BookInfo): BookData {
 
 export function getBookImgUrl(data: BookData): string | undefined {
   if (data.coverId == null) return undefined;
-  const src = `https://covers.openlibrary.org/b/id/${data.coverId}.jpg`;
-  return src;
+  return getBookImgUrlByCoverId(data.coverId);
+}
+
+export function getBookImgUrlByCoverId(coverId: number | string) {
+  return `https://covers.openlibrary.org/b/id/${coverId}.jpg`;
 }
