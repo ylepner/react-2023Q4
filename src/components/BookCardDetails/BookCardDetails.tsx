@@ -1,12 +1,22 @@
 import { useState, useEffect } from 'react';
-import { BookFullDetailsResponse } from '../../api.models';
+import {
+  AuthorResponse,
+  BookFullDetailsResponse,
+  EditionsResponse,
+} from '../../api.models';
 import './BookCardDetails.css';
 import { getBookImgUrlByCoverId } from '../../data.utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { Link, useParams } from 'react-router-dom';
 
 const BookCardDetails = ({ id }: { id: string }) => {
-  console.log('Contact!');
   const [book, setBook] = useState<BookFullDetailsResponse | null>(null);
-  const [isClicked, setIsClicked] = useState(false);
+  const [author, setAuthor] = useState<string>('');
+  const [editions, setEditions] = useState<EditionsResponse | null>(null);
+  const { searchTerm } = useParams();
+
+  console.log(book);
 
   useEffect(() => {
     fetch(`https://openlibrary.org/works/${id}.json`)
@@ -14,50 +24,54 @@ const BookCardDetails = ({ id }: { id: string }) => {
       .then((data: BookFullDetailsResponse) => {
         console.log(data);
         setBook(data);
+        const authorKey = data.authors[0].author.key;
+        return fetch(`https://openlibrary.org${authorKey}.json`);
+      })
+      .then((response) => response.json())
+      .then((data: AuthorResponse) => {
+        setAuthor(data.personal_name);
+        return fetch(`https://openlibrary.org/works/${id}/editions.json`);
+      })
+      .then((response) => response.json())
+      .then((data: EditionsResponse) => {
+        setEditions(data);
       });
   }, [id]);
-
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-  };
 
   return (
     <div>
       {book ? (
         <div className="card-details flex flex-col border-1 border-dotted border-gray-500 rounded-lg text-center relative p-2">
-          <BookCover coverId={book?.covers[0]} />
+          <div className="w-5 tex">
+            <Link to={`/search/${searchTerm}`}>
+              <FontAwesomeIcon icon={faXmark} />
+            </Link>
+          </div>
+          <BookCover coverId={book?.covers?.[0] || undefined} />
           <h4 className="p-5 font-light">{book.title}</h4>
-          <h6 className="pb-3">{book.description.value}</h6>
+          <h6 className="pb-3">
+            {' '}
+            {book.description.value ?? 'No Description'}
+          </h6>
           <StyleDescriptionElement
             detailTitle="Author"
-            detail={book.authors.join(', ')}
+            detail={author ?? 'No Name'}
           />
           <StyleDescriptionElement
             detailTitle="Publish date"
-            detail={book.created.value}
+            detail={editions?.entries[0].publish_date ?? ''}
           />
           <StyleDescriptionElement
-            detailTitle="Subjects"
-            detail={book.subjects.join(', ')}
+            detailTitle="Pages"
+            detail={editions?.entries[0].number_of_pages ?? 0}
           />
-          <button className="text-right">
-            <svg
-              onClick={handleClick}
-              fill={isClicked ? '#FDBF0F' : 'white'}
-              width="18"
-              height="25"
-              viewBox="0 0 18 25"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M17 24L9 19L1 24V2C1 1.73478 1.10536 1.48043 1.29289 1.29289C1.48043 1.10536 1.73478 1 2 1H16C16.2652 1 16.5196 1.10536 16.7071 1.29289C16.8946 1.48043 17 1.73478 17 2V24Z"
-                stroke="#3D3C3C"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+          <StyleDescriptionElement
+            detailTitle="Publishers"
+            detail={
+              editions?.entries[0].publishers?.join(', ') ?? 'No publisher'
+            }
+          />
+          <h5 className="truncate">Subjects: {book.subjects.join(', ')}</h5>
         </div>
       ) : (
         <p>Loading...</p>
@@ -68,7 +82,7 @@ const BookCardDetails = ({ id }: { id: string }) => {
 
 const StyleDescriptionElement = (props: {
   detailTitle: string;
-  detail: string;
+  detail: string | number;
 }) => {
   return (
     <span className="flex items-baseline">

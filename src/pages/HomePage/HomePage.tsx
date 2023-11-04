@@ -9,7 +9,7 @@ import libraryImg from '/BannerImg.svg';
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   return (
-    <div className="wrapper home-container flex items-center">
+    <div className="wrapper main-container-hight flex items-center">
       <div className="flex w-full justify-around items-center">
         <div className="search-box w-1/3 relative">
           <div className="relative">

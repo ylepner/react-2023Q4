@@ -10,7 +10,7 @@ export const SearchResult = (props: {
   limit: number;
 }) => {
   const [books, setBooks] = useState<BookData[]>([]);
-  console.log(props);
+  // console.log(props);
 
   useEffect(() => {
     queryBooks({
@@ -18,7 +18,7 @@ export const SearchResult = (props: {
       currentPage: props.page,
       itemsPerPage: props.limit,
     }).then((result) => {
-      console.log('Result of query', result);
+      // console.log('Result of query', result);
       setBooks(result.books);
     });
   }, [props.searchTerm, props.page, props.limit]);

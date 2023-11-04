@@ -37,3 +37,7 @@ p {
 .yellow-500 {
   color: #fdbf0f;
 }
+
+.main-container-hight {
+  min-height: calc(100vh - 150px);
+}

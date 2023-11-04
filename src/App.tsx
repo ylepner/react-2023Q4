@@ -7,6 +7,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import { SearchResult } from './pages/SearchResults/SearchResults';
 import { COUNT_PARAM_NAME, PAGE_PARAM_NAME } from './route.utils';
+import ErrorBoundary from './ErrorBoundary';
 
 function useQuery() {
   const { search } = useLocation();
@@ -30,10 +31,12 @@ function BindDetailsId() {
   const { searchTerm, id } = useParams();
   return (
     <div>
-      <BookCardDetails id={id ?? ''} />
+      <ErrorBoundary>
+        <BookCardDetails id={id ?? ''} />
+      </ErrorBoundary>
       <Link
         to={`/search/${searchTerm}`}
-        className="fixed top-0 left-0 bottom-0 bg-slate-400"
+        className="fixed top-0 left-0 bottom-0"
         style={{ zIndex: '999', opacity: 0.5, right: '385px' }}
       ></Link>
     </div>
