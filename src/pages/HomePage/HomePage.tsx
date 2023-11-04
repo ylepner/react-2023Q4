@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import './HomePage.css';
 import bookImg from '/book-gif.svg';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 import libraryImg from '/BannerImg.svg';
 import binocularsIcon from '/Binoculars.svg';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
