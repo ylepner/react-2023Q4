@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import BookCardDetails from './components/BookCardDetails/BookCardDetails';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import { SearchResult } from './pages/SearchResults/SearchResults';
 import { COUNT_PARAM_NAME, PAGE_PARAM_NAME } from './route.utils';
@@ -27,8 +27,17 @@ function BindSearchResult() {
 }
 
 function BindDetailsId() {
-  const { id } = useParams();
-  return <BookCardDetails id={id ?? ''} />;
+  const { searchTerm, id } = useParams();
+  return (
+    <div>
+      <BookCardDetails id={id ?? ''} />
+      <Link
+        to={`/search/${searchTerm}`}
+        className="fixed top-0 left-0 bottom-0 bg-slate-400"
+        style={{ zIndex: '999', opacity: 0.5, right: '385px' }}
+      ></Link>
+    </div>
+  );
 }
 
 function App() {
