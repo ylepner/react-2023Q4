@@ -6,8 +6,13 @@ import Footer from './components/Footer/Footer';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import { SearchResult } from './pages/SearchResultsPage/SearchResultsPage';
-import { COUNT_PARAM_NAME, PAGE_PARAM_NAME } from './route.utils';
+import {
+  COUNT_PARAM_NAME,
+  PAGE_PARAM_NAME,
+  useStateFromQuery,
+} from './route.utils';
 import ErrorBoundary from './ErrorBoundary';
+import { AppLink } from './components/AppLink';
 
 function useQuery() {
   const { search } = useLocation();
@@ -27,17 +32,17 @@ function BindSearchResult() {
 }
 
 function BindDetailsId() {
-  const { searchTerm, id } = useParams();
+  const queryParams = useStateFromQuery();
   return (
     <div>
       <ErrorBoundary>
-        <BookCardDetails id={id ?? ''} />
+        <BookCardDetails id={queryParams.bookId ?? ''} />
       </ErrorBoundary>
-      <Link
-        to={`/search/${searchTerm}`}
-        className="fixed top-0 left-0 bottom-0"
-        style={{ zIndex: '999', opacity: 0.5, right: '385px' }}
-      ></Link>
+      <AppLink
+        queryParams={{ ...queryParams, bookId: undefined }}
+        className={'fixed top-0 left-0 bottom-0 bg-slate-200 opacity-25'}
+        style={{ zIndex: '999', right: '385px' }}
+      ></AppLink>
     </div>
   );
 }

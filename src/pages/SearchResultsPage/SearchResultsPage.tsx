@@ -4,13 +4,17 @@ import { useEffect, useState } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
+import Paginator from '../../components/Paginator/Paginator';
 
 export const SearchResult = (props: {
   searchTerm: string;
   page: number;
   limit: number;
 }) => {
+  // state should be BookSearchData and support null
+  // null means 'is loading'
   const [books, setBooks] = useState<BookData[]>([]);
+  const [total, setTotal] = useState(0);
   const { searchTerm: initialSearchTerm } = useParams<{ searchTerm: string }>();
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
 
@@ -21,6 +25,7 @@ export const SearchResult = (props: {
       itemsPerPage: props.limit,
     }).then((result) => {
       setBooks(result.books);
+      setTotal(result.total);
     });
   }, [props.searchTerm, props.page, props.limit]);
 
@@ -30,6 +35,7 @@ export const SearchResult = (props: {
 
   return (
     <div className="main-container-hight">
+      <Paginator total={total}></Paginator>
       <div className="flex justify-center p-4">
         <div className="input-bar relative w-96">
           <input

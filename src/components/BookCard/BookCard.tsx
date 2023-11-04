@@ -1,6 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import { BookData } from '../../models';
 import { getBookImgUrl } from '../../data.utils';
+import { useStateFromQuery } from '../../route.utils';
+import { AppLink } from '../AppLink';
 
 interface BookCardProps {
   book: BookData;
@@ -8,9 +10,10 @@ interface BookCardProps {
 }
 
 const BookCard = (props: BookCardProps) => {
+  const queryParams = useStateFromQuery();
   return (
-    <NavLink
-      to={`${props.parentUrl}/details/${props.book.id}`}
+    <AppLink
+      queryParams={{ ...queryParams, bookId: props.book.id }}
       className="flex flex-col h-full cursor-pointer"
     >
       <div className="grow overflow-hidden flex items-center justify-center p-2">
@@ -33,7 +36,7 @@ const BookCard = (props: BookCardProps) => {
           by {props.book.authors.join(', ')}
         </h5>
       </div>
-    </NavLink>
+    </AppLink>
   );
 };
 

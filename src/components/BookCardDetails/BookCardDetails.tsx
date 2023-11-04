@@ -9,12 +9,14 @@ import { getBookImgUrlByCoverId } from '../../data.utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams } from 'react-router-dom';
+import { useStateFromQuery } from '../../route.utils';
+import { AppLink } from '../AppLink';
 
 const BookCardDetails = ({ id }: { id: string }) => {
   const [book, setBook] = useState<BookFullDetailsResponse | null>(null);
   const [author, setAuthor] = useState<string>('');
   const [editions, setEditions] = useState<EditionsResponse | null>(null);
-  const { searchTerm } = useParams();
+  const queryParams = useStateFromQuery();
 
   useEffect(() => {
     fetch(`https://openlibrary.org/works/${id}.json`)
@@ -40,9 +42,9 @@ const BookCardDetails = ({ id }: { id: string }) => {
       {book ? (
         <div className="card-details w-full flex flex-col border-1 border-dotted border-gray-500 rounded-lg text-center relative p-2">
           <div className="w-5">
-            <Link to={`/search/${searchTerm}`}>
+            <AppLink queryParams={{ ...queryParams, bookId: undefined }}>
               <FontAwesomeIcon icon={faXmark} />
-            </Link>
+            </AppLink>
           </div>
           <BookCover coverId={book?.covers?.[0] || undefined} />
           <h4 className="p-5 font-light">{book.title}</h4>
