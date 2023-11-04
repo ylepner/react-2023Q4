@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, CSSProperties } from 'react';
 import {
   AuthorResponse,
   BookFullDetailsResponse,
@@ -12,7 +12,13 @@ import { Link, useParams } from 'react-router-dom';
 import { useStateFromQuery } from '../../route.utils';
 import { AppLink } from '../AppLink';
 
-const BookCardDetails = ({ id }: { id: string }) => {
+const BookCardDetails = ({
+  id,
+  style,
+}: {
+  id: string;
+  style?: CSSProperties | undefined;
+}) => {
   const [book, setBook] = useState<BookFullDetailsResponse | null>(null);
   const [author, setAuthor] = useState<string>('');
   const [editions, setEditions] = useState<EditionsResponse | null>(null);
@@ -38,7 +44,7 @@ const BookCardDetails = ({ id }: { id: string }) => {
   }, [id]);
 
   return (
-    <div>
+    <div style={style}>
       {book ? (
         <div className="card-details w-full flex flex-col border-1 border-dotted border-gray-500 rounded-lg text-center relative p-2">
           <div className="w-5">
