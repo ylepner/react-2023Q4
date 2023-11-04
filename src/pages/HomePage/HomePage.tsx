@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import './HomePage.css';
 import bookImg from '/book-gif.svg';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
-import binocularsIcon from '/Binoculars.svg';
 import libraryImg from '/BannerImg.svg';
+import binocularsIcon from '/Binoculars.svg';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <div className="wrapper main-container-hight flex items-center">
       <div className="flex w-full justify-around items-center">
@@ -39,17 +40,17 @@ const HomePage = () => {
                 alt="Magnifying glass icon"
               />
             </span>
+            <span className="flex justify-evenly items-center">
+              <Link
+                to={!searchTerm ? '' : `/search/${searchTerm}`}
+                className="flex flex-wrap border-2 border-gray-800 p-1 rounded-xl bg-yellow-400 text-xs w-1/3 h-9 justify-around items-center"
+              >
+                Explore
+                <img className="w-5" src={binocularsIcon} alt="" />
+              </Link>
+              <div className="line w-2/3 ml-10"></div>
+            </span>
           </div>
-          <span className="flex justify-evenly items-center">
-            <Link
-              to={!searchTerm ? '' : `/search/${searchTerm}`}
-              className="flex flex-wrap border-2 border-gray-800 p-1 rounded-xl bg-yellow-400 text-xs w-1/3 h-9 justify-around items-center"
-            >
-              Explore
-              <img className="w-5" src={binocularsIcon} alt="" />
-            </Link>
-            <div className="line w-2/3 ml-10"></div>
-          </span>
         </div>
         <div className="search-image w-1/4">
           <img src={libraryImg} alt="library image" />

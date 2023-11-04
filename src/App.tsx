@@ -5,13 +5,12 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
-import { SearchResult } from './pages/SearchResults/SearchResults';
+import { SearchResult } from './pages/SearchResultsPage/SearchResultsPage';
 import { COUNT_PARAM_NAME, PAGE_PARAM_NAME } from './route.utils';
 import ErrorBoundary from './ErrorBoundary';
 
 function useQuery() {
   const { search } = useLocation();
-
   return useMemo(() => new URLSearchParams(search), [search]);
 }
 

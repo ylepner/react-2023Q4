@@ -15,12 +15,12 @@ export interface BookInfo {
 }
 
 export interface BookFullDetailsResponse {
-  description: Created;
+  description?: Created;
   links: Link[];
   title: string;
   covers: number[];
   subject_places: string[];
-  subjects: string[];
+  subjects?: string[];
   subject_people: string[];
   key: string;
   authors: Author[];
@@ -158,7 +158,7 @@ export interface TypeElement {
   key: string;
 }
 
-export interface Classifications { }
+export interface Classifications {}
 
 export enum TypeEnum {
   TypeDatetime = '/type/datetime',
