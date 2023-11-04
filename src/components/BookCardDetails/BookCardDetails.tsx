@@ -16,13 +16,10 @@ const BookCardDetails = ({ id }: { id: string }) => {
   const [editions, setEditions] = useState<EditionsResponse | null>(null);
   const { searchTerm } = useParams();
 
-  console.log(book);
-
   useEffect(() => {
     fetch(`https://openlibrary.org/works/${id}.json`)
       .then((response) => response.json())
       .then((data: BookFullDetailsResponse) => {
-        console.log(data);
         setBook(data);
         const authorKey = data.authors[0].author.key;
         return fetch(`https://openlibrary.org${authorKey}.json`);
@@ -41,8 +38,8 @@ const BookCardDetails = ({ id }: { id: string }) => {
   return (
     <div>
       {book ? (
-        <div className="card-details flex flex-col border-1 border-dotted border-gray-500 rounded-lg text-center relative p-2">
-          <div className="w-5 tex">
+        <div className="card-details w-full flex flex-col border-1 border-dotted border-gray-500 rounded-lg text-center relative p-2">
+          <div className="w-5">
             <Link to={`/search/${searchTerm}`}>
               <FontAwesomeIcon icon={faXmark} />
             </Link>
@@ -51,7 +48,7 @@ const BookCardDetails = ({ id }: { id: string }) => {
           <h4 className="p-5 font-light">{book.title}</h4>
           <h6 className="pb-3">
             {' '}
-            {book.description.value ?? 'No Description'}
+            {book?.description?.value ?? 'No Description'}
           </h6>
           <StyleDescriptionElement
             detailTitle="Author"
@@ -59,19 +56,17 @@ const BookCardDetails = ({ id }: { id: string }) => {
           />
           <StyleDescriptionElement
             detailTitle="Publish date"
-            detail={editions?.entries[0].publish_date ?? ''}
+            detail={editions?.entries[0].publish_date ?? 'No info'}
           />
           <StyleDescriptionElement
             detailTitle="Pages"
-            detail={editions?.entries[0].number_of_pages ?? 0}
+            detail={editions?.entries[0].number_of_pages ?? 'No info'}
           />
           <StyleDescriptionElement
             detailTitle="Publishers"
-            detail={
-              editions?.entries[0].publishers?.join(', ') ?? 'No publisher'
-            }
+            detail={editions?.entries[0].publishers?.join(', ') ?? 'No info'}
           />
-          <h5 className="truncate">Subjects: {book.subjects.join(', ')}</h5>
+          <h5 className="truncate">Subjects: {book.subjects?.join(', ')}</h5>
         </div>
       ) : (
         <p>Loading...</p>

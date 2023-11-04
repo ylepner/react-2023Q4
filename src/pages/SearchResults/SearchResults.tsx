@@ -1,8 +1,9 @@
 import { queryBooks } from '../../api.utils';
 import { BookData } from '../../models';
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
+import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 
 export const SearchResult = (props: {
   searchTerm: string;
@@ -10,7 +11,19 @@ export const SearchResult = (props: {
   limit: number;
 }) => {
   const [books, setBooks] = useState<BookData[]>([]);
-  // console.log(props);
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedSearchTerm = localStorage.getItem('searchTerm');
+    if (storedSearchTerm) {
+      setSearchTerm(storedSearchTerm);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('searchTerm', searchTerm);
+  }, [searchTerm]);
 
   useEffect(() => {
     queryBooks({
@@ -18,21 +31,43 @@ export const SearchResult = (props: {
       currentPage: props.page,
       itemsPerPage: props.limit,
     }).then((result) => {
-      // console.log('Result of query', result);
       setBooks(result.books);
     });
   }, [props.searchTerm, props.page, props.limit]);
 
   return (
-    <div className="flex flex-row">
-      <div className="grow">
-        <BookCardList
-          books={books}
-          searchTerm={props.searchTerm}
-        ></BookCardList>
+    <div className="main-container-hight">
+      <div className="flex justify-center p-4">
+        <div className="input-bar relative w-96">
+          <input
+            className="border-2 border-gray-800 w-full p-1 pl-3 rounded-3xl text-xs mb-8 relative z-10"
+            type="text"
+            placeholder="Type the name of book..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button
+            onClick={() => navigate(!searchTerm ? '' : `/search/${searchTerm}`)}
+          >
+            <img
+              className="absolute right-2 top-1 z-10"
+              src={magnifyingGlassIcon}
+              alt="Magnifying glass icon"
+            />
+          </button>
+          <div className="input-shadow w-full p-1 pl-3 rounded-3xl text-xs mb-8 bg-yellow-500 h-5 absolute top-3"></div>
+        </div>
       </div>
-      <div className="max-w-sm">
-        <Outlet />
+      <div className="flex flex-row">
+        <div className="grow">
+          <BookCardList
+            books={books}
+            searchTerm={props.searchTerm}
+          ></BookCardList>
+        </div>
+        <div className="max-w-sm m-1">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
