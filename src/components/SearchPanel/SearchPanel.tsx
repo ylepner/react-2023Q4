@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import './SearchPanel.css';
 import bookImg from '/book-gif.svg';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';

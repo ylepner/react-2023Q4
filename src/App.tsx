@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import BookCardDetails from './components/BookCardDetails/BookCardDetails';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import { SearchResult } from './pages/SearchResultsPage/SearchResultsPage';
 import {

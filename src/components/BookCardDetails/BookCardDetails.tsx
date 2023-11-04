@@ -8,7 +8,6 @@ import './BookCardDetails.css';
 import { getBookImgUrlByCoverId } from '../../data.utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { Link, useParams } from 'react-router-dom';
 import { useStateFromQuery } from '../../route.utils';
 import { AppLink } from '../AppLink';
 
