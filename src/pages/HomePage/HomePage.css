@@ -10,3 +10,7 @@
 .input-per-page {
   border: 1px solid gray;
 }
+
+.home-container {
+  min-height: calc(85vh);
+}

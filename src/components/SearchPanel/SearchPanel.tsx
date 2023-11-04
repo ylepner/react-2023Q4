@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import './SearchPanel.css';
-import bookImg from './book-gif.svg';
-import magnifyingGlassIcon from './magnifying-glass-svgrepo-com.svg';
-import binocularsIcon from './Binoculars.svg';
-import libraryImg from './BannerImg.svg';
+import bookImg from '/book-gif.svg';
+import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
+import binocularsIcon from '/Binoculars.svg';
+import libraryImg from ' /BannerImg.svg';
 import { Link } from 'react-router-dom';
 
 const SearchPanel = () => {
