@@ -22,7 +22,9 @@ class ErrorBoundary extends React.Component<object, ErrorBoundaryState> {
     if (this.state.hasError) {
       return (
         <div className="flex justify-center items-center h-screen">
-          <h1 className="text-6xl text-red-600">Something went wrong.</h1>
+          <div className="text-6xl text-center text-yellow-500">
+            Oopos! <br /> This book cannot be displayed properly.
+          </div>
         </div>
       );
     }
