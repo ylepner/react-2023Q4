@@ -17,8 +17,6 @@ export function getSearchQueryUrl({
   bookId,
 }: SearchQueryParams) {
   searchTerm = searchTerm.trim();
-  // search/Harry potter?page=3&count=10
-  // search/Harry potter/details/123?page=3&count=10
   if (bookId) {
     return `/search/${searchTerm}/details/${bookId}?${PAGE_PARAM_NAME}=${page}&${COUNT_PARAM_NAME}=${itemsPerPage}`;
   }
