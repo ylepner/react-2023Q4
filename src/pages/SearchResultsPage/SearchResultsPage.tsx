@@ -1,5 +1,5 @@
 import { queryBooks } from '../../api.utils';
-import { BookData, BookSearchData } from '../../models';
+import { BookSearchData } from '../../models';
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
@@ -11,21 +11,18 @@ export const SearchResult = (props: {
   page: number;
   limit: number;
 }) => {
-  // state should be BookSearchData and support null
-  // null means 'is loading'
-  const [books, setBooks] = useState<BookData[]>([]);
-  const [total, setTotal] = useState(0);
+  const [data, setData] = useState<BookSearchData | null>(null);
   const { searchTerm: initialSearchTerm } = useParams<{ searchTerm: string }>();
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
 
   useEffect(() => {
+    setData(null);
     queryBooks({
       searchTerm: props.searchTerm,
       currentPage: props.page,
       itemsPerPage: props.limit,
     }).then((result) => {
-      setBooks(result.books);
-      setTotal(result.total);
+      setData(result);
     });
   }, [props.searchTerm, props.page, props.limit]);
 
@@ -54,18 +51,24 @@ export const SearchResult = (props: {
           <div className="input-shadow w-full p-1 pl-3 rounded-3xl text-xs mb-8 bg-yellow-500 h-5 absolute top-3"></div>
         </div>
       </div>
-      <div className="flex flex-row">
-        <div className="grow">
-          <BookCardList
-            books={books}
-            searchTerm={props.searchTerm}
-          ></BookCardList>
-        </div>
-        <div className="max-w-sm m-1">
-          <Outlet />
-        </div>
-      </div>
-      <Paginator total={total}></Paginator>
+      {data ? (
+        <>
+          <div className="flex flex-row">
+            <div className="grow">
+              <BookCardList
+                books={data.books}
+                searchTerm={props.searchTerm}
+              ></BookCardList>
+            </div>
+            <div className="max-w-sm m-1">
+              <Outlet />
+            </div>
+          </div>
+          <Paginator total={data.total}></Paginator>
+        </>
+      ) : (
+        <div className="text-center">Loading...</div>
+      )}
     </div>
   );
 };

@@ -13,7 +13,6 @@ import { AppLink } from '../AppLink';
 
 const BookCardDetails = ({
   id,
-  style,
 }: {
   id: string;
   style?: CSSProperties | undefined;

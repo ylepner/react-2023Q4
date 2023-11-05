@@ -14,7 +14,13 @@ export function getQueryUrl(
     return `https://openlibrary.org/search.json?q='all'&offset=${offset}&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
   }
 }
-
+async function wait(time: number) {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+}
 export async function queryBooks(request: {
   searchTerm: string;
   currentPage?: number;
