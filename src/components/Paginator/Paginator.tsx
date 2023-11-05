@@ -8,9 +8,8 @@ interface PaginatorParams {
 
 const Paginator = (params: PaginatorParams) => {
   const queryParams = useStateFromQuery();
-  console.log('Query params in paginator', queryParams);
-  console.log('Page', queryParams.page);
   const navigate = useNavigate();
+  const totalPages = Math.ceil(params.total / queryParams.itemsPerPage);
 
   const handleItemsPerPageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -58,7 +57,7 @@ const Paginator = (params: PaginatorParams) => {
         </div>
         <div className="current-page text-center">{queryParams.page + 1}</div>
         <div className="pl-4">
-          {queryParams.page <= params.total ? (
+          {queryParams.page + 1 < totalPages ? (
             <AppLink
               queryParams={{
                 ...queryParams,
