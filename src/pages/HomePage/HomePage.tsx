@@ -3,8 +3,8 @@ import bookImg from '/book-gif.svg';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 import libraryImg from '/BannerImg.svg';
 import binocularsIcon from '/Binoculars.svg';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { AppLink } from '../../components/AppLink';
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -41,13 +41,18 @@ const HomePage = () => {
               />
             </span>
             <span className="flex justify-evenly items-center">
-              <Link
-                to={!searchTerm ? '' : `/search/${searchTerm}`}
+              <AppLink
+                queryParams={{
+                  bookId: undefined,
+                  page: 0,
+                  itemsPerPage: 10,
+                  searchTerm: searchTerm,
+                }}
                 className="flex flex-wrap border-2 border-gray-800 p-1 rounded-xl bg-yellow-400 text-xs w-1/3 h-9 justify-around items-center"
               >
                 Explore
                 <img className="w-5" src={binocularsIcon} alt="" />
-              </Link>
+              </AppLink>
               <div className="line w-2/3 ml-10"></div>
             </span>
           </div>

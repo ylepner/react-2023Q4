@@ -6,7 +6,6 @@ const Header = () => {
   return (
     <header className="wrapper pt-5 pb-5 flex justify-between">
       <Link to={'/'}>
-        {' '}
         <div className="flex">
           <img className="pr-3" src={bookOpenIcon} alt="book icon" />
           <h3>Open Library</h3>

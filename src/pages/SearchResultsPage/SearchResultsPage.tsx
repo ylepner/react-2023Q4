@@ -1,10 +1,12 @@
 import { queryBooks } from '../../api.utils';
 import { BookSearchData } from '../../models';
 import { useEffect, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 import Paginator from '../../components/Paginator/Paginator';
+import { AppLink } from '../../components/AppLink';
+import { useStateFromQuery } from '../../route.utils';
 
 export const SearchResult = (props: {
   searchTerm: string;
@@ -14,6 +16,7 @@ export const SearchResult = (props: {
   const [data, setData] = useState<BookSearchData | null>(null);
   const { searchTerm: initialSearchTerm } = useParams<{ searchTerm: string }>();
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  const queryParams = useStateFromQuery();
 
   useEffect(() => {
     setData(null);
@@ -41,13 +44,22 @@ export const SearchResult = (props: {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Link to={!searchTerm ? '' : `/search/${searchTerm}`}>
-            <img
-              className="absolute right-2 top-1 z-10"
-              src={magnifyingGlassIcon}
-              alt="Magnifying glass icon"
-            />
-          </Link>
+          {searchTerm?.trim() && (
+            <AppLink
+              queryParams={{
+                ...queryParams,
+                bookId: undefined,
+                page: 0,
+                searchTerm: searchTerm,
+              }}
+            >
+              <img
+                className="absolute right-2 top-1 z-10"
+                src={magnifyingGlassIcon}
+                alt="Magnifying glass icon"
+              />
+            </AppLink>
+          )}
           <div className="input-shadow w-full p-1 pl-3 rounded-3xl text-xs mb-8 bg-yellow-500 h-5 absolute top-3"></div>
         </div>
       </div>
