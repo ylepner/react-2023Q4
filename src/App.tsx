@@ -36,10 +36,7 @@ function BindDetailsId() {
   return (
     <div>
       <ErrorBoundary>
-        <BookCardDetails
-          id={queryParams.bookId ?? ''}
-          style={{ width: 'calc(85vw - 385px)' }}
-        />
+        <BookCardDetails id={queryParams.bookId ?? ''} />
       </ErrorBoundary>
       <AppLink
         queryParams={{ ...queryParams, bookId: undefined }}

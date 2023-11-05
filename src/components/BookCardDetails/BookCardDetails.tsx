@@ -43,9 +43,12 @@ const BookCardDetails = ({
   }, [id]);
 
   return (
-    <div style={style}>
+    <div>
       {book ? (
-        <div className="card-details w-full flex flex-col border-1 border-dotted border-gray-500 rounded-lg text-center relative p-2">
+        <div
+          style={{ width: '375px' }}
+          className="card-details w-full flex flex-col border-1 border-dotted border-gray-500 rounded-lg text-center relative p-2"
+        >
           <div className="w-5">
             <AppLink queryParams={{ ...queryParams, bookId: undefined }}>
               <FontAwesomeIcon icon={faXmark} />
