@@ -41,18 +41,20 @@ const HomePage = () => {
               />
             </span>
             <span className="flex justify-evenly items-center">
-              <AppLink
-                queryParams={{
-                  bookId: undefined,
-                  page: 0,
-                  itemsPerPage: 10,
-                  searchTerm: searchTerm,
-                }}
-                className="flex flex-wrap border-2 border-gray-800 p-1 rounded-xl bg-yellow-400 text-xs w-1/3 h-9 justify-around items-center"
-              >
-                Explore
-                <img className="w-5" src={binocularsIcon} alt="" />
-              </AppLink>
+              {searchTerm?.trim() && (
+                <AppLink
+                  queryParams={{
+                    bookId: undefined,
+                    page: 0,
+                    itemsPerPage: 10,
+                    searchTerm: searchTerm,
+                  }}
+                  className="flex flex-wrap border-2 border-gray-800 p-1 rounded-xl bg-yellow-400 text-xs w-1/3 h-9 justify-around items-center"
+                >
+                  Explore
+                  <img className="w-5" src={binocularsIcon} alt="" />
+                </AppLink>
+              )}
               <div className="line w-2/3 ml-10"></div>
             </span>
           </div>
