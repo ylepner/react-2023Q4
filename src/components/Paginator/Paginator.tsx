@@ -26,10 +26,11 @@ const Paginator = (params: PaginatorParams) => {
   };
 
   return (
-    <div className="paginator">
-      <div>
+    <div className="paginator flex flex-col text-center">
+      <div className="paginator-options">
         Show
         <select
+          className="border-2 rounded-md m-2 text-center"
           value={queryParams.itemsPerPage}
           onChange={handleItemsPerPageChange}
         >
@@ -38,32 +39,39 @@ const Paginator = (params: PaginatorParams) => {
           <option value={50}>50</option>
           <option value={100}>100</option>
         </select>
-        {queryParams.itemsPerPage} results of {params.total}
+        results of {params.total}
       </div>
-      {queryParams.page >= 1 ? (
-        <AppLink
-          queryParams={{
-            ...queryParams,
-            page: queryParams.page - 1,
-          }}
-        >
-          <span>⬅️prev</span>
-        </AppLink>
-      ) : (
-        <span className="grayscale">⬅️prev</span>
-      )}
-      {queryParams.page <= params.total ? (
-        <AppLink
-          queryParams={{
-            ...queryParams,
-            page: queryParams.page + 1,
-          }}
-        >
-          <span>next➡️</span>
-        </AppLink>
-      ) : (
-        <span className="grayscale"> next➡️</span>
-      )}
+      <div className="paginator-buttons flex justify-center p-5">
+        <div className="pr-4">
+          {queryParams.page >= 1 ? (
+            <AppLink
+              queryParams={{
+                ...queryParams,
+                page: queryParams.page - 1,
+              }}
+            >
+              <span>⬅️prev</span>
+            </AppLink>
+          ) : (
+            <span className="grayscale">⬅️prev</span>
+          )}
+        </div>
+        <div className="current-page text-center">{queryParams.page + 1}</div>
+        <div className="pl-4">
+          {queryParams.page <= params.total ? (
+            <AppLink
+              queryParams={{
+                ...queryParams,
+                page: queryParams.page + 1,
+              }}
+            >
+              <span>next➡️</span>
+            </AppLink>
+          ) : (
+            <span className="grayscale"> next➡️</span>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

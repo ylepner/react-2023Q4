@@ -2,7 +2,7 @@ export interface BookData {
   id: string;
   title: string;
   coverId?: string;
-  authors: string[];
+  authors?: string[];
 }
 
 export interface BookSearchData {

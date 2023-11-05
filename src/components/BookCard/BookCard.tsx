@@ -32,7 +32,7 @@ const BookCard = (props: BookCardProps) => {
           {props.book.title}
         </h5>
         <h5 className="card-author truncate">
-          by {props.book.authors.join(', ')}
+          by {props.book.authors?.join(', ') || 'No info'}
         </h5>
       </div>
     </AppLink>

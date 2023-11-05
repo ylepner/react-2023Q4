@@ -1,5 +1,5 @@
 import { queryBooks } from '../../api.utils';
-import { BookData } from '../../models';
+import { BookData, BookSearchData } from '../../models';
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
@@ -35,7 +35,6 @@ export const SearchResult = (props: {
 
   return (
     <div className="main-container-hight">
-      <Paginator total={total}></Paginator>
       <div className="flex justify-center p-4">
         <div className="input-bar relative w-96">
           <input
@@ -66,6 +65,7 @@ export const SearchResult = (props: {
           <Outlet />
         </div>
       </div>
+      <Paginator total={total}></Paginator>
     </div>
   );
 };
