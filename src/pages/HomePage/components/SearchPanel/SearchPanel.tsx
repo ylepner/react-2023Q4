@@ -11,6 +11,7 @@ interface SearchPanelProps {
 }
 class SearchPanel extends Component<SearchPanelProps> {
   private inputRef = createRef<HTMLInputElement>();
+
   constructor(props: SearchPanelProps) {
     super(props);
   }
@@ -44,13 +45,13 @@ class SearchPanel extends Component<SearchPanelProps> {
               defaultValue={this.props.searchTerm}
             />
             <div className="input-shadow w-full p-1 pl-3 rounded-3xl text-xs mb-8 bg-yellow-500 h-5 absolute top-3"></div>
-            <span>
+            <div>
               <img
                 className="absolute right-2 top-1 z-10"
                 src={magnifyingGlassIcon}
                 alt="Magnifying glass icon"
               />
-            </span>
+            </div>
           </div>
           <span className="flex justify-evenly items-center">
             <button

@@ -8,47 +8,54 @@ class Footer extends Component {
     return (
       <footer className="wrapper pt-5 pb-5 flex justify-between items-center">
         <div className="flex">
-          <h4>Open Library Project</h4>
+          <p>Open Library Project</p>
         </div>
         <div className="links flex">
-          <ShowOffLink
+          <ShowLink
             link="https://www.linkedin.com/in/julia-lepner/"
             icon={circleShadow}
             logo={linkedinIcon}
+            ariaLabel={'Go to julia lepner linkedin page'}
           />
-          <ShowOffLink
+          <ShowLink
             link="https://github.com/ylepner/"
             icon={circleShadow}
             logo={githubIcon}
+            ariaLabel={'Go to ylepner github page'}
           />
         </div>
         <a href="https://github.com/ylepner" target="_blank" rel="noreferrer">
-          <h4>ylepner</h4>
+          <p>ylepner</p>
         </a>
-        <h4>2023</h4>
+        <p>2023</p>
       </footer>
     );
   }
 }
-export default Footer;
-
-class ShowOffLink extends Component<{
+const ShowLink = ({
+  link,
+  icon,
+  logo,
+  ariaLabel,
+}: {
   link: string;
   icon: string;
   logo: string;
-}> {
-  render(): React.ReactNode {
-    return (
-      <div className="relative pr-5">
-        <a href={this.props.link} target="_blank" rel="noreferrer">
-          <img src={this.props.icon} alt="circle shadow" />
-          <img
-            className="absolute top-0 left-0 translate-x-2/4 translate-y-2/4"
-            src={this.props.logo}
-            alt="circle shadow"
-          />
-        </a>
-      </div>
-    );
-  }
-}
+  ariaLabel: string;
+}) => {
+  return (
+    <div className="relative pr-5">
+      <a href={link} target="_blank" rel="noreferrer">
+        <img src={icon} alt="" />
+        <img
+          className="absolute top-0 left-0 translate-x-2/4 translate-y-2/4"
+          src={logo}
+          alt=""
+          aria-label={ariaLabel}
+        />
+      </a>
+    </div>
+  );
+};
+
+export default Footer;

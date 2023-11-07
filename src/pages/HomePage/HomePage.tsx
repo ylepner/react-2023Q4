@@ -4,6 +4,7 @@ import BookCardList from './components/BookCardList/BookCardList';
 import { BookInfo, BooksResponse } from './components/BookCard/models';
 import './HomePage.css';
 import { data as defaultData } from '../../data';
+import { getQueryUrl } from '../../api.utils';
 
 interface State {
   searchTerm: string;
@@ -40,6 +41,7 @@ export default class HomePage extends Component<object, State> {
       this.setState({ isListStatus: 'results' });
     }
     this.setState({ isLoading: true, searchTerm: searchTerm ?? '' });
+
     try {
       const result = await fetch(url);
       const data: BooksResponse = await result.json();
@@ -69,9 +71,11 @@ export default class HomePage extends Component<object, State> {
     if (this.state.isLoading) {
       return <>Loading...</>;
     }
+
     if (this.state.isListStatus === 'trends') {
       return <>Trending books</>;
     }
+
     return (
       <>
         {this.state.searchTerm ? (
@@ -88,7 +92,10 @@ export default class HomePage extends Component<object, State> {
       <div className="wrapper">
         <button
           className="border-2 border-gray-800 p-2 rounded-3xl mb-8 bg-red-500"
-          onClick={this.setError}
+          onClick={() => {
+            this.setError();
+            throw new Error('Error from renderer');
+          }}
         >
           Throw error
         </button>
@@ -105,13 +112,5 @@ export default class HomePage extends Component<object, State> {
         </div>
       </div>
     );
-  }
-}
-
-function getQueryUrl(searchTerm: string) {
-  if (searchTerm) {
-    return `https://openlibrary.org/search.json?q=${searchTerm}&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
-  } else {
-    return `https://openlibrary.org/search.json?q='all'&_spellcheck_count=0&limit=10&fields=key,cover_i,title,subtitle,author_name,name&mode=everything`;
   }
 }

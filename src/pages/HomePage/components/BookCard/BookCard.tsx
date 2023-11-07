@@ -21,6 +21,7 @@ class BookCard extends Component<BookCardProps> {
               <img
                 className="max-w-full max-h-full"
                 src={`https://covers.openlibrary.org/b/id/${this.props.book.cover_i}.jpg`}
+                alt="book cover"
               />
             </div>
           )}
