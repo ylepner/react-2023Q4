@@ -1,19 +1,17 @@
 import BookCard from '../BookCard/BookCard';
 import './BookCardList.css';
-import { BookData } from '../../models';
+import { useContext } from 'react';
+import { AppContext } from '../../app.context';
 
-interface BookCardListProps {
-  books: BookData[];
-  searchTerm?: string;
-}
+const BookCardList = () => {
+  const context = useContext(AppContext);
 
-const BookCardList = (props: BookCardListProps) => {
   return (
     <div>
       <div className="flex flex-wrap flex-row gap-4 justify-center pb-6 pt-6 ">
-        {props.books.map((book) => (
+        {context.bookList.map((book) => (
           <div key={book.id} className="card-book w-40">
-            <BookCard book={book} parentUrl={`/search/${props.searchTerm}`} />
+            <BookCard book={book} parentUrl={`/search/${context.searchTerm}`} />
           </div>
         ))}
       </div>

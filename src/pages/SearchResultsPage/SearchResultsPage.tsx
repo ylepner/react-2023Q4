@@ -7,6 +7,7 @@ import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 import Paginator from '../../components/Paginator/Paginator';
 import { AppLink } from '../../components/AppLink';
 import { useStateFromQuery } from '../../route.utils';
+import { AppContext } from '../../app.context';
 
 export const SearchResult = (props: {
   searchTerm: string;
@@ -75,10 +76,11 @@ export const SearchResult = (props: {
           <>
             <div className="flex flex-row">
               <div className="grow">
-                <BookCardList
-                  books={data.books}
-                  searchTerm={props.searchTerm}
-                ></BookCardList>
+                <AppContext.Provider
+                  value={{ bookList: data.books, searchTerm: searchTerm ?? '' }}
+                >
+                  <BookCardList></BookCardList>
+                </AppContext.Provider>
               </div>
               <div className="max-w-sm m-1">
                 <Outlet />
