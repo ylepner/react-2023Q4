@@ -1,31 +1,28 @@
 import { queryBooks } from '../../api.utils';
 import { BookSearchData } from '../../models';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 import Paginator from '../../components/Paginator/Paginator';
 import { AppLink } from '../../components/AppLink';
 import { useStateFromQuery } from '../../route.utils';
-import { AppContext } from '../../app.context';
+import { BookListContext, SearchTermContext } from '../../app.context';
 
-export const SearchResult = (props: {
-  searchTerm: string;
-  page: number;
-  limit: number;
-}) => {
+export const SearchResult = (props: { page: number; limit: number }) => {
   const [data, setData] = useState<BookSearchData | null>(null);
   const { searchTerm: initialSearchTerm } = useParams<{ searchTerm: string }>();
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [error, setError] = useState(false);
   const queryParams = useStateFromQuery();
+  const searchTermContext = useContext(SearchTermContext);
 
   useEffect(() => {
     setData(null);
     const fetchBooks = async () => {
       try {
         const result = await queryBooks({
-          searchTerm: props.searchTerm,
+          searchTerm: searchTermContext.searchTerm,
           currentPage: props.page,
           itemsPerPage: props.limit,
         });
@@ -35,7 +32,7 @@ export const SearchResult = (props: {
       }
     };
     fetchBooks();
-  }, [props.searchTerm, props.page, props.limit]);
+  }, [searchTermContext.searchTerm, props.page, props.limit]);
 
   useEffect(() => {
     setSearchTerm(initialSearchTerm);
@@ -76,11 +73,9 @@ export const SearchResult = (props: {
           <>
             <div className="flex flex-row">
               <div className="grow">
-                <AppContext.Provider
-                  value={{ bookList: data.books, searchTerm: searchTerm ?? '' }}
-                >
+                <BookListContext.Provider value={{ bookList: data.books }}>
                   <BookCardList></BookCardList>
-                </AppContext.Provider>
+                </BookListContext.Provider>
               </div>
               <div className="max-w-sm m-1">
                 <Outlet />

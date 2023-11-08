@@ -13,6 +13,7 @@ import {
 } from './route.utils';
 import ErrorBoundary from './ErrorBoundary';
 import { AppLink } from './components/AppLink';
+import { SearchTermContext } from './app.context';
 
 function useQuery() {
   const { search } = useLocation();
@@ -20,14 +21,15 @@ function useQuery() {
 }
 
 function BindSearchResult() {
-  const { searchTerm } = useParams();
   const query = useQuery();
+  const { searchTerm } = useParams();
   return (
-    <SearchResult
-      searchTerm={searchTerm ?? ''}
-      page={parseInt(query.get(PAGE_PARAM_NAME) || '0')}
-      limit={parseInt(query.get(COUNT_PARAM_NAME) || '10')}
-    />
+    <SearchTermContext.Provider value={{ searchTerm: searchTerm ?? '' }}>
+      <SearchResult
+        page={parseInt(query.get(PAGE_PARAM_NAME) || '0')}
+        limit={parseInt(query.get(COUNT_PARAM_NAME) || '10')}
+      />
+    </SearchTermContext.Provider>
   );
 }
 
