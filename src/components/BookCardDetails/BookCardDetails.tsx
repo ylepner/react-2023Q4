@@ -1,4 +1,4 @@
-import { useState, useEffect, CSSProperties } from 'react';
+import { useState, useEffect, CSSProperties, useContext } from 'react';
 import {
   AuthorResponse,
   BookFullDetailsResponse,
@@ -8,8 +8,8 @@ import './BookCardDetails.css';
 import { getBookImgUrlByCoverId } from '../../data.utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useStateFromQuery } from '../../route.utils';
 import { AppLink } from '../AppLink';
+import { SearchContext } from '../../app.context';
 
 const BookCardDetails = ({
   id,
@@ -20,7 +20,7 @@ const BookCardDetails = ({
   const [book, setBook] = useState<BookFullDetailsResponse | null>(null);
   const [author, setAuthor] = useState<string>('');
   const [editions, setEditions] = useState<EditionsResponse | null>(null);
-  const queryParams = useStateFromQuery();
+  const context = useContext(SearchContext);
 
   useEffect(() => {
     fetch(`https://openlibrary.org/works/${id}.json`)
@@ -49,7 +49,7 @@ const BookCardDetails = ({
           className="card-details w-full flex flex-col border-1 border-dotted border-gray-500 rounded-lg text-center relative p-2"
         >
           <div className="w-5">
-            <AppLink queryParams={{ ...queryParams, bookId: undefined }}>
+            <AppLink queryParams={{ ...context, bookId: undefined }}>
               <FontAwesomeIcon icon={faXmark} />
             </AppLink>
           </div>

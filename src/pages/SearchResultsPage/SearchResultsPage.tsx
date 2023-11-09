@@ -1,30 +1,28 @@
 import { queryBooks } from '../../api.utils';
 import { BookSearchData } from '../../models';
 import { useContext, useEffect, useState } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 import Paginator from '../../components/Paginator/Paginator';
 import { AppLink } from '../../components/AppLink';
-import { useStateFromQuery } from '../../route.utils';
-import { BookListContext, SearchTermContext } from '../../app.context';
+import { BookListContext, SearchContext } from '../../app.context';
 
-export const SearchResult = (props: { page: number; limit: number }) => {
+export const SearchResult = () => {
   const [data, setData] = useState<BookSearchData | null>(null);
-  const { searchTerm: initialSearchTerm } = useParams<{ searchTerm: string }>();
+  const { searchTerm: initialSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [error, setError] = useState(false);
-  const queryParams = useStateFromQuery();
-  const searchTermContext = useContext(SearchTermContext);
+  const searchContext = useContext(SearchContext);
 
   useEffect(() => {
     setData(null);
     const fetchBooks = async () => {
       try {
         const result = await queryBooks({
-          searchTerm: searchTermContext.searchTerm,
-          currentPage: props.page,
-          itemsPerPage: props.limit,
+          searchTerm: searchContext.searchTerm,
+          currentPage: searchContext.page,
+          itemsPerPage: searchContext.itemsPerPage,
         });
         setData(result);
       } catch (error) {
@@ -32,7 +30,11 @@ export const SearchResult = (props: { page: number; limit: number }) => {
       }
     };
     fetchBooks();
-  }, [searchTermContext.searchTerm, props.page, props.limit]);
+  }, [
+    searchContext.searchTerm,
+    searchContext.page,
+    searchContext.itemsPerPage,
+  ]);
 
   useEffect(() => {
     setSearchTerm(initialSearchTerm);
@@ -53,7 +55,7 @@ export const SearchResult = (props: { page: number; limit: number }) => {
             {searchTerm?.trim() && (
               <AppLink
                 queryParams={{
-                  ...queryParams,
+                  ...searchContext,
                   bookId: undefined,
                   page: 0,
                   searchTerm: searchTerm,

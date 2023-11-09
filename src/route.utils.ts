@@ -36,8 +36,8 @@ export function useStateFromQuery(): SearchQueryParams {
     bookId: id,
   };
 }
+
 function useQuery() {
   const { search } = useLocation();
-
   return useMemo(() => new URLSearchParams(search), [search]);
 }

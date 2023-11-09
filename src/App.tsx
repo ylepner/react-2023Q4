@@ -1,35 +1,27 @@
 import { Route, Routes } from 'react-router';
-import { useMemo } from 'react';
 import BookCardDetails from './components/BookCardDetails/BookCardDetails';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import { useLocation, useParams } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import { SearchResult } from './pages/SearchResultsPage/SearchResultsPage';
-import {
-  COUNT_PARAM_NAME,
-  PAGE_PARAM_NAME,
-  useStateFromQuery,
-} from './route.utils';
+import { useStateFromQuery } from './route.utils';
 import ErrorBoundary from './ErrorBoundary';
 import { AppLink } from './components/AppLink';
-import { SearchTermContext } from './app.context';
-
-function useQuery() {
-  const { search } = useLocation();
-  return useMemo(() => new URLSearchParams(search), [search]);
-}
+import { SearchContext } from './app.context';
 
 function BindSearchResult() {
-  const query = useQuery();
-  const { searchTerm } = useParams();
+  const contextValues = useStateFromQuery();
   return (
-    <SearchTermContext.Provider value={{ searchTerm: searchTerm ?? '' }}>
-      <SearchResult
-        page={parseInt(query.get(PAGE_PARAM_NAME) || '0')}
-        limit={parseInt(query.get(COUNT_PARAM_NAME) || '10')}
-      />
-    </SearchTermContext.Provider>
+    <SearchContext.Provider
+      value={{
+        bookId: contextValues.bookId,
+        itemsPerPage: contextValues.itemsPerPage,
+        page: contextValues.page,
+        searchTerm: contextValues.searchTerm,
+      }}
+    >
+      <SearchResult />
+    </SearchContext.Provider>
   );
 }
 

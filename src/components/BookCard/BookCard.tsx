@@ -1,7 +1,8 @@
 import { BookData } from '../../models';
 import { getBookImgUrl } from '../../data.utils';
-import { useStateFromQuery } from '../../route.utils';
 import { AppLink } from '../AppLink';
+import { useContext } from 'react';
+import { SearchContext } from '../../app.context';
 
 interface BookCardProps {
   book: BookData;
@@ -9,10 +10,10 @@ interface BookCardProps {
 }
 
 const BookCard = (props: BookCardProps) => {
-  const queryParams = useStateFromQuery();
+  const context = useContext(SearchContext);
   return (
     <AppLink
-      queryParams={{ ...queryParams, bookId: props.book.id }}
+      queryParams={{ ...context, bookId: props.book.id }}
       className="flex flex-col h-full cursor-pointer"
     >
       <div className="grow overflow-hidden flex items-center justify-center p-2">

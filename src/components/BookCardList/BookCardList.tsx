@@ -1,11 +1,11 @@
 import BookCard from '../BookCard/BookCard';
 import './BookCardList.css';
 import { useContext } from 'react';
-import { BookListContext, SearchTermContext } from '../../app.context';
+import { BookListContext, SearchContext } from '../../app.context';
 
 const BookCardList = () => {
   const bookListContext = useContext(BookListContext);
-  const searchTermContext = useContext(SearchTermContext);
+  const searchContext = useContext(SearchContext);
 
   return (
     <div>
@@ -14,7 +14,7 @@ const BookCardList = () => {
           <div key={book.id} className="card-book w-40">
             <BookCard
               book={book}
-              parentUrl={`/search/${searchTermContext.searchTerm}`}
+              parentUrl={`/search/${searchContext.searchTerm}`}
             />
           </div>
         ))}
