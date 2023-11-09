@@ -1,12 +1,13 @@
 import { queryBooks } from '../../api.utils';
 import { BookSearchData } from '../../models';
 import { useContext, useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 import Paginator from '../../components/Paginator/Paginator';
 import { AppLink } from '../../components/AppLink';
 import { BookListContext, SearchContext } from '../../app.context';
+import { getSearchQueryUrl } from '../../route.utils';
 
 export const SearchResult = () => {
   const [data, setData] = useState<BookSearchData | null>(null);
@@ -14,6 +15,7 @@ export const SearchResult = () => {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [error, setError] = useState(false);
   const searchContext = useContext(SearchContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setData(null);
@@ -51,6 +53,20 @@ export const SearchResult = () => {
               placeholder="Type the name of book..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  {
+                    e.preventDefault();
+                    const inputElement = e.target as HTMLInputElement;
+                    setSearchTerm(inputElement.value);
+                    const link = getSearchQueryUrl({
+                      ...searchContext,
+                      searchTerm: searchTerm,
+                    });
+                    navigate(link);
+                  }
+                }
+              }}
             />
             {searchTerm?.trim() && (
               <AppLink
