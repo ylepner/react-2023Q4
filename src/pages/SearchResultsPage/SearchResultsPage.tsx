@@ -6,7 +6,11 @@ import BookCardList from '../../components/BookCardList/BookCardList';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 import Paginator from '../../components/Paginator/Paginator';
 import { AppLink } from '../../components/AppLink';
-import { BookListContext, SearchContext } from '../../app.context';
+import {
+  BookListContext,
+  SearchContext,
+  useStateFromContext,
+} from '../../app.context';
 import { getSearchQueryUrl } from '../../route.utils';
 
 export const SearchResult = () => {
@@ -14,7 +18,8 @@ export const SearchResult = () => {
   const { searchTerm: initialSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [error, setError] = useState(false);
-  const searchContext = useContext(SearchContext);
+  const searchContext = useStateFromContext();
+
   const navigate = useNavigate();
 
   useEffect(() => {

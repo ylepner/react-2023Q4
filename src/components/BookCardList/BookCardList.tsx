@@ -1,11 +1,11 @@
 import BookCard from '../BookCard/BookCard';
 import './BookCardList.css';
 import { useContext } from 'react';
-import { BookListContext, SearchContext } from '../../app.context';
+import { BookListContext, useStateFromContext } from '../../app.context';
 
 const BookCardList = () => {
   const bookListContext = useContext(BookListContext);
-  const searchContext = useContext(SearchContext);
+  const searchContext = useStateFromContext();
 
   return (
     <div>

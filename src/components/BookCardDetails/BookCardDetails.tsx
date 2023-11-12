@@ -1,4 +1,4 @@
-import { useState, useEffect, CSSProperties, useContext } from 'react';
+import { useState, useEffect, CSSProperties } from 'react';
 import {
   AuthorResponse,
   BookFullDetailsResponse,
@@ -9,7 +9,7 @@ import { getBookImgUrlByCoverId } from '../../data.utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { AppLink } from '../AppLink';
-import { SearchContext } from '../../app.context';
+import { useStateFromContext } from '../../app.context';
 
 const BookCardDetails = ({
   id,
@@ -20,7 +20,7 @@ const BookCardDetails = ({
   const [book, setBook] = useState<BookFullDetailsResponse | null>(null);
   const [author, setAuthor] = useState<string>('');
   const [editions, setEditions] = useState<EditionsResponse | null>(null);
-  const context = useContext(SearchContext);
+  const context = useStateFromContext();
 
   useEffect(() => {
     fetch(`https://openlibrary.org/works/${id}.json`)

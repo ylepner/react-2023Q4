@@ -1,8 +1,7 @@
 import { BookData } from '../../models';
 import { getBookImgUrl } from '../../data.utils';
 import { AppLink } from '../AppLink';
-import { useContext } from 'react';
-import { SearchContext } from '../../app.context';
+import { useStateFromContext } from '../../app.context';
 
 interface BookCardProps {
   book: BookData;
@@ -10,7 +9,7 @@ interface BookCardProps {
 }
 
 const BookCard = (props: BookCardProps) => {
-  const context = useContext(SearchContext);
+  const context = useStateFromContext();
   return (
     <AppLink
       queryParams={{ ...context, bookId: props.book.id }}
