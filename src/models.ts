@@ -17,6 +17,10 @@ export interface SearchState {
   bookId?: string;
 }
 
+export interface StoreState {
+  appState: AppState;
+}
+
 export interface AppState {
   search: SearchState;
   selectedBookId?: string;

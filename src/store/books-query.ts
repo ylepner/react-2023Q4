@@ -7,12 +7,13 @@ export const booksApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
   endpoints: (builder) => ({
     getBooks: builder.query<BookSearchData, SearchState>({
-      query: (searchState) =>
-        getQueryUrl(
+      query: (searchState) => {
+        return getQueryUrl(
           searchState.searchTerm,
           searchState.page,
           searchState.itemsPerPage
-        ),
+        );
+      },
     }),
   }),
 });

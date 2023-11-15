@@ -7,6 +7,8 @@ export const store = configureStore({
     [booksApi.reducerPath]: booksApi.reducer,
     appState: appSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(booksApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

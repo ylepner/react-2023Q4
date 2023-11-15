@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppState, SearchState } from '../models';
+import { AppState } from '../models';
 
 const initialState: AppState = {
   search: {

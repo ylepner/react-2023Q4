@@ -1,5 +1,5 @@
 import { queryBooks } from '../../api.utils';
-import { AppState, BookSearchData } from '../../models';
+import { AppState, BookSearchData, StoreState } from '../../models';
 import { useContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
@@ -24,9 +24,10 @@ export const SearchResult = () => {
 
   const navigate = useNavigate();
 
-  const searchState = useSelector((state: AppState) => state.search);
+  const searchState2 = useSelector(
+    (state: StoreState) => state.appState.search
+  );
 
-  const searchState2 = useSelector((state: AppState) => state.search);
   const queryStuff = useGetBooksQuery(searchState2);
 
   useEffect(() => {
