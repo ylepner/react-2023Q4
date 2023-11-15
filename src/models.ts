@@ -10,8 +10,15 @@ export interface BookSearchData {
   total: number;
 }
 
-export interface QueryStateProps {
+export interface SearchState {
   searchTerm: string;
   page: number;
-  limit: number;
+  itemsPerPage: number;
+  bookId?: string;
+}
+
+export interface AppState {
+  search: SearchState;
+  selectedBookId?: string;
+  searchResult?: BookSearchData;
 }

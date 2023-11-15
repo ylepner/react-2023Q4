@@ -8,6 +8,8 @@ import { useStateFromQuery } from './route.utils';
 import ErrorBoundary from './ErrorBoundary';
 import { AppLink } from './components/AppLink';
 import { SearchContext } from './app.context';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 function BindSearchResult() {
   const contextValues = useStateFromQuery();
@@ -47,14 +49,16 @@ function BindDetailsId() {
 function App() {
   return (
     <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/search/:searchTerm" element={<BindSearchResult />}>
-          <Route path="details/:id" element={<BindDetailsId />}></Route>
-        </Route>
-      </Routes>
-      <Footer />
+      <Provider store={store}>
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/search/:searchTerm" element={<BindSearchResult />}>
+            <Route path="details/:id" element={<BindDetailsId />}></Route>
+          </Route>
+        </Routes>
+        <Footer />
+      </Provider>
     </>
   );
 }

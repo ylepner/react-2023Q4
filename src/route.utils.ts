@@ -1,12 +1,7 @@
 import { useMemo } from 'react';
 import { useParams, useLocation } from 'react-router';
+import { SearchState } from './models';
 
-export interface SearchQueryParams {
-  searchTerm: string;
-  page: number;
-  itemsPerPage: number;
-  bookId?: string;
-}
 export const COUNT_PARAM_NAME = 'count';
 export const PAGE_PARAM_NAME = 'page';
 
@@ -15,7 +10,7 @@ export function getSearchQueryUrl({
   page,
   itemsPerPage,
   bookId,
-}: SearchQueryParams) {
+}: SearchState) {
   searchTerm = searchTerm.trim();
   if (bookId) {
     return `/search/${searchTerm}/details/${bookId}?${PAGE_PARAM_NAME}=${page}&${COUNT_PARAM_NAME}=${itemsPerPage}`;
@@ -24,7 +19,7 @@ export function getSearchQueryUrl({
   return `/search/${searchTerm}?${PAGE_PARAM_NAME}=${page}&${COUNT_PARAM_NAME}=${itemsPerPage}`;
 }
 
-export function useStateFromQuery(): SearchQueryParams {
+export function useStateFromQuery(): SearchState {
   const { searchTerm, id } = useParams();
   const query = useQuery();
   const page = parseInt(query.get(PAGE_PARAM_NAME) || '0');

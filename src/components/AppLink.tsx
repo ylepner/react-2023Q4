@@ -1,9 +1,10 @@
 import { CSSProperties, ReactNode } from 'react';
-import { SearchQueryParams, getSearchQueryUrl } from '../route.utils';
+import { getSearchQueryUrl } from '../route.utils';
+import { SearchState } from '../models';
 import { Link } from 'react-router-dom';
 
 export function AppLink(props: {
-  queryParams: SearchQueryParams;
+  queryParams: SearchState;
   children?: ReactNode;
   className?: string;
   style?: CSSProperties | undefined;

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import { BookData } from './models';
-import { SearchQueryParams } from './route.utils';
+import { SearchState } from './models';
 
 export interface SearchContextState {
   itemsPerPage: number;
@@ -24,6 +24,6 @@ export const SearchContext = createContext<SearchContextState>({
   bookId: undefined,
 });
 
-export function useStateFromContext(): SearchQueryParams {
+export function useStateFromContext(): SearchState {
   return useContext(SearchContext);
 }

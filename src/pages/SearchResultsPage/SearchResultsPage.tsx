@@ -1,5 +1,5 @@
 import { queryBooks } from '../../api.utils';
-import { BookSearchData } from '../../models';
+import { AppState, BookSearchData } from '../../models';
 import { useContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
@@ -12,6 +12,8 @@ import {
   useStateFromContext,
 } from '../../app.context';
 import { getSearchQueryUrl } from '../../route.utils';
+import { useSelector } from 'react-redux';
+import { useGetBooksQuery } from '../../store/books-query';
 
 export const SearchResult = () => {
   const [data, setData] = useState<BookSearchData | null>(null);
@@ -21,6 +23,11 @@ export const SearchResult = () => {
   const searchContext = useStateFromContext();
 
   const navigate = useNavigate();
+
+  const searchState = useSelector((state: AppState) => state.search);
+
+  const searchState2 = useSelector((state: AppState) => state.search);
+  const queryStuff = useGetBooksQuery(searchState2);
 
   useEffect(() => {
     setData(null);
@@ -49,7 +56,7 @@ export const SearchResult = () => {
 
   const mainRender = () => {
     return (
-      <div className="main-container-hight">
+      <div className="main-container-hight wrapper">
         <div className="flex justify-center p-4">
           <div className="input-bar relative w-96">
             <input
