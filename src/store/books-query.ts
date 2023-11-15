@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BookSearchData, SearchState } from '../models';
 import { getQueryUrl } from '../api.utils';
+import { BooksResponse } from '../api.models';
+import { toBookInfo } from '../data.utils';
 
 export const booksApi = createApi({
   reducerPath: 'booksApi',
@@ -13,6 +15,15 @@ export const booksApi = createApi({
           searchState.page,
           searchState.itemsPerPage
         );
+      },
+      transformResponse: (responseBody: object) => {
+        // Add your postprocessing code here
+        const data = responseBody as BooksResponse;
+        const result: BookSearchData = {
+          books: data.docs.map((el) => toBookInfo(el)),
+          total: data.numFound,
+        };
+        return result;
       },
     }),
   }),

@@ -4,7 +4,7 @@ import { AppState } from '../models';
 const initialState: AppState = {
   search: {
     searchTerm: '',
-    page: 1,
+    page: 0,
     itemsPerPage: 10,
   },
 };
@@ -26,3 +26,6 @@ export const appSlice = createSlice({
     },
   },
 });
+
+export const { setSearchTerm, setPage, setItemsPerPage, setBookId } =
+  appSlice.actions;

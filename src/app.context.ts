@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react';
-import { BookData } from './models';
+import { BookData, StoreState } from './models';
 import { SearchState } from './models';
+import { useSelector } from 'react-redux';
 
 export interface SearchContextState {
   itemsPerPage: number;
@@ -21,9 +22,10 @@ export const SearchContext = createContext<SearchContextState>({
   itemsPerPage: 10,
   page: 0,
   searchTerm: '',
-  bookId: undefined,
 });
 
 export function useStateFromContext(): SearchState {
-  return useContext(SearchContext);
+  const searchState = useSelector((state: StoreState) => state.appState.search);
+  return searchState;
+  // return useContext(SearchContext);
 }

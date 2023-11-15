@@ -1,5 +1,3 @@
-import { queryBooks } from '../../api.utils';
-import { AppState, BookSearchData, StoreState } from '../../models';
 import { useContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
@@ -12,48 +10,20 @@ import {
   useStateFromContext,
 } from '../../app.context';
 import { getSearchQueryUrl } from '../../route.utils';
-import { useSelector } from 'react-redux';
 import { useGetBooksQuery } from '../../store/books-query';
+import { setSearchTerm } from '../../store/reducer';
+import { useDispatch } from 'react-redux';
 
 export const SearchResult = () => {
-  const [data, setData] = useState<BookSearchData | null>(null);
-  const { searchTerm: initialSearchTerm } = useContext(SearchContext);
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
-  const [error, setError] = useState(false);
-  const searchContext = useStateFromContext();
+  // const [data, setData] = useState<BookSearchData | null>(null);
 
-  const navigate = useNavigate();
+  // const [error, setError] = useState(false);
+  const searchState = useStateFromContext();
+  const [searchTerm, setCurrentSearchTerm] = useState(searchState.searchTerm);
+  const dispatch = useDispatch();
 
-  const searchState2 = useSelector(
-    (state: StoreState) => state.appState.search
-  );
-
-  const queryStuff = useGetBooksQuery(searchState2);
-
-  useEffect(() => {
-    setData(null);
-    const fetchBooks = async () => {
-      try {
-        const result = await queryBooks({
-          searchTerm: searchContext.searchTerm,
-          currentPage: searchContext.page,
-          itemsPerPage: searchContext.itemsPerPage,
-        });
-        setData(result);
-      } catch (error) {
-        setError(true);
-      }
-    };
-    fetchBooks();
-  }, [
-    searchContext.searchTerm,
-    searchContext.page,
-    searchContext.itemsPerPage,
-  ]);
-
-  useEffect(() => {
-    setSearchTerm(initialSearchTerm);
-  }, [initialSearchTerm]);
+  console.log({ searchState });
+  const { data, error } = useGetBooksQuery(searchState);
 
   const mainRender = () => {
     return (
@@ -65,18 +35,14 @@ export const SearchResult = () => {
               type="text"
               placeholder="Type the name of book..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => setCurrentSearchTerm(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   {
+                    console.log(searchTerm);
                     e.preventDefault();
-                    const inputElement = e.target as HTMLInputElement;
-                    setSearchTerm(inputElement.value);
-                    const link = getSearchQueryUrl({
-                      ...searchContext,
-                      searchTerm: searchTerm,
-                    });
-                    navigate(link);
+                    dispatch(setSearchTerm(searchTerm));
+                    // setSearchTerm(searchTerm);
                   }
                 }
               }}
@@ -84,7 +50,7 @@ export const SearchResult = () => {
             {searchTerm?.trim() && (
               <AppLink
                 queryParams={{
-                  ...searchContext,
+                  ...searchState,
                   bookId: undefined,
                   page: 0,
                   searchTerm: searchTerm,
