@@ -10,13 +10,19 @@ import './SearchResultsPage.css';
 import { setSearchTerm as setSearchTermAction } from '../../store/reducer';
 import { StoreState } from '../../models';
 import BookCardDetails from '../../components/BookCardDetails/BookCardDetails';
+import { useEffect, useState } from 'react';
 
 export const SearchResult = () => {
   const searchState = useStateFromContext();
+  const [searchTerm, setSearchTerm] = useState(searchState.searchTerm);
   const dispatch = useDispatch();
-  const searchTerm = useSelector((state: StoreState) => {
+  const searchTermFromStore = useSelector((state: StoreState) => {
     return state.appState.search.searchTerm;
   });
+
+  useEffect(() => {
+    dispatch(setSearchTermAction(searchTerm));
+  }, [searchTerm, dispatch]);
 
   const bookId = useSelector((state: StoreState) => {
     return state.appState.selectedBookId;
@@ -41,7 +47,6 @@ export const SearchResult = () => {
                   {
                     console.log(searchTerm);
                     e.preventDefault();
-                    dispatch(setSearchTerm(searchTerm));
                   }
                 }
               }}
