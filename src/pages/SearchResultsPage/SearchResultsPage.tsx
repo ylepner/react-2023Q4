@@ -1,23 +1,16 @@
-import { useContext, useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 import Paginator from '../../components/Paginator/Paginator';
 import { AppLink } from '../../components/AppLink';
-import {
-  BookListContext,
-  SearchContext,
-  useStateFromContext,
-} from '../../app.context';
-import { getSearchQueryUrl } from '../../route.utils';
+import { BookListContext, useStateFromContext } from '../../app.context';
 import { useGetBooksQuery } from '../../store/books-query';
 import { setSearchTerm } from '../../store/reducer';
 import { useDispatch } from 'react-redux';
+import './SearchResultsPage.css';
 
 export const SearchResult = () => {
-  // const [data, setData] = useState<BookSearchData | null>(null);
-
-  // const [error, setError] = useState(false);
   const searchState = useStateFromContext();
   const [searchTerm, setCurrentSearchTerm] = useState(searchState.searchTerm);
   const dispatch = useDispatch();
@@ -42,7 +35,6 @@ export const SearchResult = () => {
                     console.log(searchTerm);
                     e.preventDefault();
                     dispatch(setSearchTerm(searchTerm));
-                    // setSearchTerm(searchTerm);
                   }
                 }
               }}
