@@ -21,7 +21,7 @@ export const appSlice = createSlice({
     setItemsPerPage: (state, action: PayloadAction<number>) => {
       state.search.itemsPerPage = action.payload;
     },
-    setBookId: (state, action: PayloadAction<string>) => {
+    setBookId: (state, action: PayloadAction<string | undefined>) => {
       state.selectedBookId = action.payload;
     },
   },

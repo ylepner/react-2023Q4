@@ -17,7 +17,6 @@ export const booksApi = createApi({
         );
       },
       transformResponse: (responseBody: object) => {
-        // Add your postprocessing code here
         const data = responseBody as BooksResponse;
         const result: BookSearchData = {
           books: data.docs.map((el) => toBookInfo(el)),

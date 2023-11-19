@@ -1,12 +1,9 @@
 import { Route, Routes } from 'react-router';
-import BookCardDetails from './components/BookCardDetails/BookCardDetails';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import HomePage from './pages/HomePage/HomePage';
 import { SearchResult } from './pages/SearchResultsPage/SearchResultsPage';
 import { useStateFromQuery } from './route.utils';
-import ErrorBoundary from './ErrorBoundary';
-import { AppLink } from './components/AppLink';
 import { SearchContext } from './app.context';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
@@ -27,25 +24,6 @@ function BindSearchResult() {
   );
 }
 
-function BindDetailsId() {
-  const queryParams = useStateFromQuery();
-  return (
-    <div>
-      <ErrorBoundary>
-        <BookCardDetails
-          id={queryParams.bookId ?? ''}
-          style={{ width: 'calc(100vw - 385px)' }}
-        />
-      </ErrorBoundary>
-      <AppLink
-        queryParams={{ ...queryParams, bookId: undefined }}
-        className={'fixed-list fixed top-0 left-0 bottom-0'}
-        style={{ zIndex: '999', right: '385px' }}
-      ></AppLink>
-    </div>
-  );
-}
-
 function App() {
   return (
     <>
@@ -53,9 +31,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/search/:searchTerm" element={<BindSearchResult />}>
-            <Route path="details/:id" element={<BindDetailsId />}></Route>
-          </Route>
+          <Route path="/search" element={<BindSearchResult />}></Route>
         </Routes>
         <Footer />
       </Provider>

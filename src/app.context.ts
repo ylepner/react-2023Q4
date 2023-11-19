@@ -27,5 +27,4 @@ export const SearchContext = createContext<SearchContextState>({
 export function useStateFromContext(): SearchState {
   const searchState = useSelector((state: StoreState) => state.appState.search);
   return searchState;
-  // return useContext(SearchContext);
 }

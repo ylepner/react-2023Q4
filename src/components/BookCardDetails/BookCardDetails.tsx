@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { AppLink } from '../AppLink';
 import { useStateFromContext } from '../../app.context';
+import { setBookId } from '../../store/reducer';
 
 const BookCardDetails = ({
   id,
@@ -49,7 +50,10 @@ const BookCardDetails = ({
           className="card-details w-full flex flex-col border-1 border-dotted border-gray-500 rounded-lg text-center relative p-2"
         >
           <div className="w-5">
-            <AppLink queryParams={{ ...context, bookId: undefined }}>
+            <AppLink
+              action={setBookId(undefined)}
+              queryParams={{ ...context, bookId: undefined }}
+            >
               <FontAwesomeIcon icon={faXmark} />
             </AppLink>
           </div>

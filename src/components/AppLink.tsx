@@ -1,7 +1,5 @@
 import { CSSProperties, ReactNode } from 'react';
-import { getSearchQueryUrl } from '../route.utils';
 import { SearchState } from '../models';
-import { Link } from 'react-router-dom';
 import { Action } from 'redux';
 import { useDispatch } from 'react-redux';
 

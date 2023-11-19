@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { getSearchQueryUrl, useStateFromQuery } from '../../route.utils';
 import { AppLink } from '../AppLink';
+import { setPage } from '../../store/reducer';
 
 interface PaginatorParams {
   total: number;
@@ -44,6 +45,7 @@ const Paginator = (params: PaginatorParams) => {
         <div className="pr-4">
           {queryParams.page >= 1 ? (
             <AppLink
+              action={setPage(queryParams.page - 1)}
               queryParams={{
                 ...queryParams,
                 page: queryParams.page - 1,
@@ -59,6 +61,7 @@ const Paginator = (params: PaginatorParams) => {
         <div className="pl-4">
           {queryParams.page + 1 < totalPages ? (
             <AppLink
+              action={setPage(queryParams.page + 1)}
               queryParams={{
                 ...queryParams,
                 page: queryParams.page + 1,

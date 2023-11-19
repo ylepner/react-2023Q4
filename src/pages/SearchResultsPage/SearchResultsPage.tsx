@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
 import BookCardList from '../../components/BookCardList/BookCardList';
 import magnifyingGlassIcon from '/magnifying-glass-svgrepo-com.svg';
 import Paginator from '../../components/Paginator/Paginator';
@@ -7,13 +5,22 @@ import { AppLink } from '../../components/AppLink';
 import { BookListContext, useStateFromContext } from '../../app.context';
 import { useGetBooksQuery } from '../../store/books-query';
 import { setSearchTerm } from '../../store/reducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './SearchResultsPage.css';
+import { setSearchTerm as setSearchTermAction } from '../../store/reducer';
+import { StoreState } from '../../models';
+import BookCardDetails from '../../components/BookCardDetails/BookCardDetails';
 
 export const SearchResult = () => {
   const searchState = useStateFromContext();
-  const [searchTerm, setCurrentSearchTerm] = useState(searchState.searchTerm);
   const dispatch = useDispatch();
+  const searchTerm = useSelector((state: StoreState) => {
+    return state.appState.search.searchTerm;
+  });
+
+  const bookId = useSelector((state: StoreState) => {
+    return state.appState.selectedBookId;
+  });
 
   console.log({ searchState });
   const { data, error } = useGetBooksQuery(searchState);
@@ -28,7 +35,7 @@ export const SearchResult = () => {
               type="text"
               placeholder="Type the name of book..."
               value={searchTerm}
-              onChange={(e) => setCurrentSearchTerm(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   {
@@ -41,6 +48,7 @@ export const SearchResult = () => {
             />
             {searchTerm?.trim() && (
               <AppLink
+                action={setSearchTermAction(searchTerm)}
                 queryParams={{
                   ...searchState,
                   bookId: undefined,
@@ -67,7 +75,7 @@ export const SearchResult = () => {
                 </BookListContext.Provider>
               </div>
               <div className="max-w-sm m-1">
-                <Outlet />
+                {bookId && <BookCardDetails id={bookId}></BookCardDetails>}
               </div>
             </div>
             <Paginator total={data.total}></Paginator>
