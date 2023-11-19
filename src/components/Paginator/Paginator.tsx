@@ -1,7 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-import { getSearchQueryUrl, useStateFromQuery } from '../../route.utils';
+import { useStateFromQuery } from '../../route.utils';
 import { AppLink } from '../AppLink';
 import { setPage } from '../../store/reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { setItemsPerPage as setItemsPerPage } from '../../store/reducer';
+import { StoreState } from '../../models';
 
 interface PaginatorParams {
   total: number;
@@ -9,20 +11,17 @@ interface PaginatorParams {
 
 const Paginator = (params: PaginatorParams) => {
   const queryParams = useStateFromQuery();
-  const navigate = useNavigate();
   const totalPages = Math.ceil(params.total / queryParams.itemsPerPage);
+  const dispatch = useDispatch();
+  const itemsPerPage = useSelector(
+    (state: StoreState) => state.appState.search.itemsPerPage
+  );
 
   const handleItemsPerPageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const itemsPerPage = parseInt(event.target.value, 10);
-    navigate(
-      getSearchQueryUrl({
-        ...queryParams,
-        itemsPerPage: itemsPerPage,
-        page: 0,
-      })
-    );
+    dispatch(setItemsPerPage(itemsPerPage));
   };
 
   return (
@@ -31,7 +30,7 @@ const Paginator = (params: PaginatorParams) => {
         Show
         <select
           className="border-2 rounded-md m-2 text-center"
-          value={queryParams.itemsPerPage}
+          value={itemsPerPage}
           onChange={handleItemsPerPageChange}
         >
           <option value={10}>10</option>
