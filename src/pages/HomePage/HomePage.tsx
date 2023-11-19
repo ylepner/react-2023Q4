@@ -5,6 +5,7 @@ import libraryImg from '/BannerImg.svg';
 import binocularsIcon from '/Binoculars.svg';
 import { useState } from 'react';
 import { setSearchTerm as setSearchTermAction } from '../../store/reducer';
+import { setPage } from '../../store/reducer';
 import { useDispatch } from 'react-redux';
 import { useStateFromContext } from '../../app.context';
 import { useNavigate } from 'react-router';
