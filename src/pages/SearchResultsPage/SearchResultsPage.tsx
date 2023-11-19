@@ -4,7 +4,6 @@ import Paginator from '../../components/Paginator/Paginator';
 import { AppLink } from '../../components/AppLink';
 import { BookListContext, useStateFromContext } from '../../app.context';
 import { useGetBooksQuery } from '../../store/books-query';
-import { setSearchTerm } from '../../store/reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import './SearchResultsPage.css';
 import { setSearchTerm as setSearchTermAction } from '../../store/reducer';
@@ -16,9 +15,6 @@ export const SearchResult = () => {
   const searchState = useStateFromContext();
   const [searchTerm, setSearchTerm] = useState(searchState.searchTerm);
   const dispatch = useDispatch();
-  const searchTermFromStore = useSelector((state: StoreState) => {
-    return state.appState.search.searchTerm;
-  });
 
   useEffect(() => {
     dispatch(setSearchTermAction(searchTerm));
